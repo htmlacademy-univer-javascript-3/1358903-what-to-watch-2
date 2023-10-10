@@ -1,5 +1,6 @@
+import {FC} from "react";
 
-export const SignIn = () => {
+export const SignIn: FC = () => {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

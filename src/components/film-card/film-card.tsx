@@ -1,9 +1,9 @@
-import {FC} from "react";
-import {Link} from "react-router-dom";
-import {TFilm} from "../../types/TFilm.ts";
+import {FC} from 'react';
+import {Link} from 'react-router-dom';
+import {TFilm} from '../../types/TFilm.ts';
 
 interface IFilmCard {
-  film: TFilm
+  film: TFilm;
 }
 export const FilmCard: FC<IFilmCard> = ({film}) => {
   const {image, title, id} = film;

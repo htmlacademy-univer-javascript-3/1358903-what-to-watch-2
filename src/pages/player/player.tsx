@@ -1,5 +1,6 @@
+import {FC} from "react";
 
-export const Player = () => {
+export const Player: FC = () => {
   return (
     <div className="player">
       <video src="#" className="player__video" poster="img/player-poster.jpg"></video>

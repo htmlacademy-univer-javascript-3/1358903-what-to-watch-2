@@ -1,8 +1,8 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {FilmList} from "../film-list/film-list.tsx";
-import {Film} from "../../pages/film/film.tsx";
-import {FC} from "react";
-import {Main} from "../../pages/main/main.tsx";
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {FilmList} from '../film-list/film-list.tsx';
+import {Film} from '../../pages/film/film.tsx';
+import {FC} from 'react';
+import {Main} from '../../pages/main/main.tsx';
 
 
 export const AppRouter: FC = () => {

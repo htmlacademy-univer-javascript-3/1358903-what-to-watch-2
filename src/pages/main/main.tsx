@@ -305,8 +305,8 @@ export const Main: FC = () => {
           <p>© 2019 What to watch Ltd.</p>
         </div>
       </footer>
-  </div>
     </div>
+  </div>
 
   );
 };
