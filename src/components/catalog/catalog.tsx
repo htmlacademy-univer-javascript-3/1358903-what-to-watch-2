@@ -2,8 +2,7 @@ import { films } from '../../mocks/films.ts';
 import { FC, useCallback, useState } from 'react';
 import { GenresItem } from './genres-item.tsx';
 import { eCatalogValues } from '../../types/ECatalog.ts';
-import { FilmCard } from '../film-card/film-card.tsx';
-
+import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 
 interface ICatalog {
   withGenres?: boolean;
@@ -28,7 +27,7 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
 
       <div className="catalog__films-list">
         {
-          films.map((film) => <FilmCard key={film.id} film={film}/>)
+          films.map((film) => <SmallFilmCard key={film.id} film={film}/>)
         }
       </div>
 
