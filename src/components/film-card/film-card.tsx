@@ -1,21 +1,1 @@
-import {FC} from 'react';
-import {Link} from 'react-router-dom';
-import {TFilm} from '../../types/TFilm.ts';
-
-interface IFilmCard {
-  film: TFilm;
-}
-export const FilmCard: FC<IFilmCard> = ({film}) => {
-  const {image, title, id} = film;
-  return (
-    <article className="small-film-card catalog__films-card">
-      <div className="small-film-card__image">
-        <img src={image} alt={title} width="280" height="175" />
-      </div>
-      <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${id}`}>{title}</Link>
-      </h3>
-    </article>
-
-  );
-};
+import {Link} from 'react-router-dom';import {TFilm} from '../../types/TFilm.ts';import UserBlock from '../user-block/user-block.tsx';import { Buttons } from '../button/buttons.ts';interface IFilmCard {  film: TFilm;}export const FilmCard: React.FC<IFilmCard> = ({film}) => {  const {imageUrl, title, year, genre, id} = film;  return (    <section className="film-card">      <div className="film-card__bg">        <img src={imageUrl} alt={title} />      </div>      <h1 className="visually-hidden">WTW</h1>      <header className="page-header film-card__head">        <div className="logo">          <Link className="logo__link logo__link--light" to='/'>            <span className="logo__letter logo__letter--1">W</span>            <span className="logo__letter logo__letter--2">T</span>            <span className="logo__letter logo__letter--3">W</span>          </Link>        </div>        <UserBlock />      </header>      <div className="film-card__wrap">        <div className="film-card__info">          <div className="film-card__poster">            <img src={imageUrl} alt={title} width="218" height="327" />          </div>          <div className="film-card__desc">            <h2 className="film-card__title">{title}</h2>            <p className="film-card__meta">              <span className="film-card__genre">{genre}</span>              <span className="film-card__year">{year}</span>            </p>            <div className="film-card__buttons">              <Buttons.Play id={id}/>              <Buttons.MyListButton count={12} />              <Buttons.AddReview id={id} />            </div>          </div>        </div>      </div>    </section>  );};

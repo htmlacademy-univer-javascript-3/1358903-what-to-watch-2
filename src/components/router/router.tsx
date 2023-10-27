@@ -24,7 +24,8 @@ export const AppRouter: FC = () => {
           <PrivateRoute isAuth={isAuth}>
             <MyList />
           </PrivateRoute>
-        }/>
+        }
+        />
 
         <Route path="/films/:id" element={<Film />}/>
         <Route path="/films/:id/review" element={<AddReview />}/>
