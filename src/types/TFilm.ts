@@ -1,8 +1,15 @@
 
 
 export type TFilm = {
-  id: number;
+  id: string;
   title: string;
-  image?: string;
+  duration: string;
+  year: string;
+  views: string;
+  director: string;
+  imageUrl: string;
+  videoUrl: string;
+  description: string;
+  genre: string;
 }
 
