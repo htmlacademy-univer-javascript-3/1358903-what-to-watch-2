@@ -4,12 +4,33 @@ import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
 import { Buttons } from '../../components/button/buttons.ts';
-import LikeThis from '../../components/like-this/like-this.tsx';
+import { Tabs } from '../../components/tabs/tabs.tsx';
+import { ITab } from '../../components/tabs/types.ts';
+import { Overview } from './overview.tsx';
+import { Details } from './details.tsx';
+import { Reviews } from './reviews.tsx';
+import { LikeThis } from '../../components/like-this/like-this.tsx';
 
 
 export const Film: FC = () => {
   const params = useParams();
   const film = films.find((f) => f.id === params.id);
+
+
+  const tabs: ITab[] = [
+    {
+      label: 'Overview',
+      component: <Overview />
+    },
+    {
+      label: 'Details',
+      component: <Details />
+    },
+    {
+      label: 'Reviews',
+      component: <Reviews />
+    }
+  ];
 
   return (
     <>
@@ -61,25 +82,13 @@ export const Film: FC = () => {
               />
             </div>
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
+              <Tabs tabs={tabs} />
             </div>
           </div>
         </div>
       </section>
 
-      <LikeThis ids={['1', '2']} />
+      <LikeThis genre={film?.genre}/>
     </>
   );
 };

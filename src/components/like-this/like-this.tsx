@@ -5,20 +5,23 @@ import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import { Footer } from '../footer/footer.tsx';
 
 interface ILikeThis {
-  ids: string[];
+  genre?: string;
 }
-export const LikeThis: FC<ILikeThis> = ({ ids }) => (
-  <div className="page-content">
+export const LikeThis: FC<ILikeThis> = ({ genre}) => {
+
+  const filmLikeThis = films.filter((film) => film.genre === genre).slice(0, 4);
+
+  return (<div className="page-content">
     <section className="catalog catalog--like-this">
       <h2 className="catalog__title">More like this</h2>
       <div className="catalog__films-list">
-        {films.filter((f) => ids.includes(f.id)).map((film) => (
+        {filmLikeThis.map((film) => (
           <SmallFilmCard film={film} key={film.id} />
         ))}
       </div>
     </section>
     <Footer />
-  </div>
-);
+  </div>);
+};
 
-export default LikeThis;
+
