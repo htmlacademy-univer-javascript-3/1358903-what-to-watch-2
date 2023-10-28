@@ -1,19 +1,32 @@
 import { films } from '../../mocks/films.ts';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { GenresItem } from './genres-item.tsx';
-import { eCatalogValues } from '../../types/ECatalog.ts';
+import { ECatalog, eCatalogValues } from '../../types/ECatalog.ts';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
+import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
+import { setGenre } from '../../store/action.ts';
+
 
 interface ICatalog {
   withGenres?: boolean;
 }
 export const Catalog: FC<ICatalog> = ({withGenres}) => {
-  const [genre, setGenre] = useState<string>();
 
+  const currentGenre = useAppSelector((state) => state.catalog.genre);
 
-  const handleSetGenre = useCallback((value: string) => () => {
-    setGenre(value);
-  }, []);
+  const dispatch = useAppDispatch();
+
+  const handleSetGenre = useCallback((value: ECatalog) => () => {
+    dispatch(setGenre(value));
+  }, [dispatch]);
+
+  const filteredFilms = useMemo(() => {
+    if (currentGenre === ECatalog.All) {
+      return films;
+
+    }
+    return films.filter((film) => film.genre === currentGenre);
+  }, [currentGenre]);
 
   return (
     <section className="catalog">
@@ -21,13 +34,13 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
 
       {
         withGenres
-          ? eCatalogValues.map((catalog) => <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre}/>)
+          ? eCatalogValues.map((catalog) => <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === currentGenre}/>)
           : null
       }
 
       <div className="catalog__films-list">
         {
-          films.map((film) => <SmallFilmCard key={film.id} film={film}/>)
+          filteredFilms.map((film) => <SmallFilmCard key={film.id} film={film}/>)
         }
       </div>
 

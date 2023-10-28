@@ -1,6 +1,7 @@
+import { ReactElement } from 'react';
 
 
 export interface ITab {
   label: string;
-  component: JSX.Element;
+  component: ReactElement;
 }

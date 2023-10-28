@@ -1,4 +1,5 @@
 import { IReview } from './IReview.ts';
+import { ECatalog } from './ECatalog.ts';
 
 
 export type TFilm = {
@@ -11,7 +12,7 @@ export type TFilm = {
   imageUrl: string;
   videoUrl: string;
   description: string;
-  genre: string;
+  genre: ECatalog;
   reviews: IReview[];
   actors?: string[];
 }
