@@ -1,3 +1,4 @@
+import { IReview } from './IReview.ts';
 
 
 export type TFilm = {
@@ -11,5 +12,7 @@ export type TFilm = {
   videoUrl: string;
   description: string;
   genre: string;
+  reviews: IReview[];
+  actors?: string[];
 }
 
