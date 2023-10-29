@@ -121,4 +121,17 @@ export const films: TFilm[] = [
     genre: ECatalog.Thrillers,
     reviews,
   },
+  {
+    id: '9',
+    title: 'Dr. No',
+    duration: '2:11',
+    year: '1962',
+    views: '10000000',
+    director: 'Terence Young',
+    imageUrl: 'https://avatars.mds.yandex.net/get-kinopoisk-image/1898899/9d09b39f-f1b5-4aac-963b-1aaab12c446d/300x450',
+    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    description: 'Bond is given the task of finding out what constitutes electromagnetic interference in the computers of the American launch silos at Cape Canaveral. According to intelligence data, the brain center of the enemy forces is located in Jamaica. The bond is being pushed out there.\n',
+    genre: ECatalog.Comedies,
+    reviews,
+  },
 ];
