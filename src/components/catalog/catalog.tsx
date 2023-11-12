@@ -27,14 +27,6 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
     }
   }, [dispatch, films]);
 
-  if (filmsError) {
-    return <Page404/>;
-  }
-
-  if (!films || filmsStatus === 'LOADING') {
-    return <Spinner/>;
-  }
-
   const handleSetGenre = useCallback((value: ECatalog) => () => {
     dispatch(setGenre(value));
     setVisibleFilmsCount(VISIBLE_FILMS_COUNT);
@@ -44,17 +36,29 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
   const filteredFilms = useMemo(() => {
     if (currentGenre === ECatalog.All) {
       return films;
-
     }
-    return films.filter((film) => film.genre === currentGenre);
+    return films?.filter((film) => film.genre === currentGenre);
   }, [currentGenre, films]);
 
   const handleShowMoreClick = useCallback(() => {
-    const newVisibleCount = Math.min(visibleFilmsCount + VISIBLE_FILMS_COUNT, filteredFilms.length);
+    const newVisibleCount = Math.min(visibleFilmsCount + VISIBLE_FILMS_COUNT, filteredFilms?.length || 0);
     setVisibleFilmsCount(newVisibleCount);
   }, [visibleFilmsCount, filteredFilms]);
 
-  const isShowMore = useMemo(() => (filteredFilms.length - visibleFilmsCount) > 0, [filteredFilms, visibleFilmsCount]);
+  const isShowMore = useMemo(() => {
+    if (filteredFilms?.length) {
+      return filteredFilms?.length - visibleFilmsCount > 0;
+    }
+    return 0;
+  } , [filteredFilms, visibleFilmsCount]);
+
+  if (filmsError) {
+    return <Page404/>;
+  }
+
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
 
   return (
     <section className="catalog">
@@ -67,7 +71,7 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
 
 
       <div className="catalog__films-list">
-        {filteredFilms.slice(0, visibleFilmsCount).map((film) => (
+        {filteredFilms?.slice(0, visibleFilmsCount).map((film) => (
           <SmallFilmCard key={film.id} film={film} />
         ))}
       </div>
