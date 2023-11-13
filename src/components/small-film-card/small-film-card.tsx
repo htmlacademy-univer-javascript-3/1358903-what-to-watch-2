@@ -11,7 +11,7 @@ interface IFilmCard {
 }
 
 export const SmallFilmCard: React.FC<IFilmCard> = ({film}) => {
-  const {previewImage, id, previewVideoLink, name} = film;
+  const {imageUrl, title, id, videoUrl} = film;
   const [isPlaying, setIsPlaying] = useState(false);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const handleMouseEnter = () => {
@@ -39,10 +39,10 @@ export const SmallFilmCard: React.FC<IFilmCard> = ({film}) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <VideoPlayer isPlaying={isPlaying} videoUrl={previewVideoLink} previewImageUrl={previewImage}/>
+        <VideoPlayer isPlaying={isPlaying} videoUrl={videoUrl} previewImageUrl={imageUrl}/>
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
+        <Link className="small-film-card__link" to={`/films/${id}`}>{title}</Link>
       </h3>
     </article>
   );

@@ -20,7 +20,7 @@ export const Overview: FC = () => {
     return totalRating / (film?.reviews?.length || 1); // Используем 1, чтобы избежать деления на 0
   }, [calculateTotalRating, film?.reviews]);
 
-  const ratingCount = useMemo(() => calculateTotalRating(film?.reviews), [calculateTotalRating, film?.reviews]);
+  const ratingCount = useMemo(() => calculateTotalRating(film?.reviews), [film?.reviews]);
 
   return (<div className="film-card__desc">
 

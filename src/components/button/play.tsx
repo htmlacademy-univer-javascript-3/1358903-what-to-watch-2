@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 interface IPlay {
-	id: string;
+	id?: string;
 }
 
 export const Play: React.FC<IPlay> = ({ id }) => (
