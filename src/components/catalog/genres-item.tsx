@@ -1,12 +1,12 @@
 import React from 'react';
-import { ECatalog } from '../../types/ECatalog.ts';
+import { ECatalog } from '../../types/catalog.ts';
 
-interface GenresItem {
+interface IGenresItemProps {
   catalog: ECatalog;
   setGenre: (newGenre: ECatalog) => () => void;
   isActive: boolean;
 }
-export const GenresItem: React.FC<GenresItem> = ({
+export const GenresItem: React.FC<IGenresItemProps> = ({
   catalog, setGenre, isActive
 }) => (
   <li

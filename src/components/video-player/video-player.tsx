@@ -1,11 +1,11 @@
 import { useRef, FC } from 'react';
 
-interface IVideoPlayer {
+interface IVideoPlayerProps {
   videoUrl: string;
   previewImageUrl: string;
   isPlaying: boolean;
 }
-export const VideoPlayer: FC<IVideoPlayer> = ({ videoUrl, previewImageUrl, isPlaying }) => {
+export const VideoPlayer: FC<IVideoPlayerProps> = ({ videoUrl, previewImageUrl, isPlaying }) => {
   const videoRef = useRef(null);
 
   return (

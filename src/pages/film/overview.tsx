@@ -1,12 +1,18 @@
 import { FC, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { films } from '../../mocks/films.ts';
-import { IReview } from '../../types/IReview.ts';
+import { IReview } from '../../types/review.ts';
+import { useAppSelector } from '../../hooks/store.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { Page404 } from '../page-404/page-404.tsx';
+import { Spinner } from '../../components/spinner/spinner.tsx';
 
 
 export const Overview: FC = () => {
   const params = useParams();
-  const film = films.find((f) => f.id === params.id);
+  const films = useAppSelector(selectFilmsData);
+  const film = films?.find((f) => f.id === params.id);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
 
   const calculateTotalRating = useCallback((reviews: IReview[] | undefined) => {
     if (!reviews || reviews.length === 0) {
@@ -14,29 +20,41 @@ export const Overview: FC = () => {
     }
     return reviews.reduce((acc, next) => acc + next.rating, 0);
   }, []);
-
+  // TODO add reviews
   const score = useMemo(() => {
-    const totalRating = calculateTotalRating(film?.reviews);
-    return totalRating / (film?.reviews?.length || 1); // Используем 1, чтобы избежать деления на 0
-  }, [calculateTotalRating, film?.reviews]);
+    const totalRating = calculateTotalRating([]);
+    return totalRating / ([]?.length || 1); // Используем 1, чтобы избежать деления на 0
+  }, [calculateTotalRating]);
 
-  const ratingCount = useMemo(() => calculateTotalRating(film?.reviews), [calculateTotalRating, film?.reviews]);
+  const ratingCount = useMemo(() => calculateTotalRating([]), [calculateTotalRating]);
 
-  return (<div className="film-card__desc">
 
-    <div className="film-rating">
-      <div className="film-rating__score">{score}</div>
-      <p className="film-rating__meta">
-        <span className="film-rating__level">Very good</span>
-        <span className="film-rating__count">{ratingCount} ratings</span>
-      </p>
+  if (filmsError) {
+    return <Page404/>;
+  }
+
+  if (!film || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
+
+  // TODO next task
+  return (
+    <div className="film-card__desc">
+      <div className="film-rating">
+        <div className="film-rating__score">{score}</div>
+        <p className="film-rating__meta">
+          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__count">{ratingCount} ratings</span>
+        </p>
+      </div>
+
+      <div className="film-card__text">
+        {/*<p>{film?.description}</p>*/}
+        {/*<p className="film-card__director"><strong>Director: {film?.director}</strong></p>*/}
+        {/*<p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>*/}
+      </div>
     </div>
+  );
 
-    <div className="film-card__text">
-      <p>{film?.description}</p>
-      <p className="film-card__director"><strong>Director: {film?.director}</strong></p>
-      <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
-    </div>
-  </div>);
 };
 

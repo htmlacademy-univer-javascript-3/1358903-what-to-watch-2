@@ -2,10 +2,10 @@ import { FC, useCallback, useState } from 'react';
 import { ITab } from './types.ts';
 
 
-interface ITabs {
+interface ITabsProps {
   tabs: ITab[];
 }
-export const Tabs: FC<ITabs> = ({ tabs }) => {
+export const Tabs: FC<ITabsProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleSetActiveTab = useCallback((index: number) => () => {

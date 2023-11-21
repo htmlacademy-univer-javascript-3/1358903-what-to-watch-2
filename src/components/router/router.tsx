@@ -1,6 +1,6 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {Film} from '../../pages/film/film.tsx';
-import {FC} from 'react';
+import { FC, useEffect } from 'react';
 import {Main} from '../../pages/main/main.tsx';
 import {Page404} from '../../pages/page-404/page-404.tsx';
 import {SignIn} from '../../pages/sign-in/sign-in.tsx';
@@ -8,20 +8,27 @@ import {SignIn} from '../../pages/sign-in/sign-in.tsx';
 import {AddReview} from '../../pages/add-review/add-review.tsx';
 import {Player} from '../../pages/player/player.tsx';
 import {PrivateRoute} from './private-route.tsx';
-import MyList from '../../pages/my-list/my-list.tsx';
+import { MyList } from '../../pages/my-list/my-list.tsx';
+import { useAppDispatch } from '../../hooks/store.ts';
+import { fetchMovies, getAuthorizationStatus } from '../../store/api-actions.ts';
 
 
 export const AppRouter: FC = () => {
+  const dispatch = useAppDispatch();
 
-  const isAuth = false;
+  useEffect(() => {
+    dispatch(getAuthorizationStatus());
+    dispatch(fetchMovies());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main/>}/>
+        <Route path="/" element={<Main />}/>
         <Route path="/login" element={<SignIn />}/>
 
         <Route path="/mylist" element={
-          <PrivateRoute isAuth={isAuth}>
+          <PrivateRoute>
             <MyList />
           </PrivateRoute>
         }

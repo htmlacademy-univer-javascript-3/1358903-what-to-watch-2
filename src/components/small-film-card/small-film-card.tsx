@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { TFilm } from '../../types/TFilm.ts';
+import { Film } from '../../types/film.ts';
 import { VideoPlayer } from '../video-player/video-player.tsx';
 
 const PLAYER_TIMEOUT = 1000;
 
-interface IFilmCard {
-  film: TFilm;
+interface IFilmCardProps {
+  film: Film;
 }
 
-export const SmallFilmCard: React.FC<IFilmCard> = ({film}) => {
+export const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
   const {previewImage, id, previewVideoLink, name} = film;
   const [isPlaying, setIsPlaying] = useState(false);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);

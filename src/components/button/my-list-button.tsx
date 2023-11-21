@@ -1,9 +1,9 @@
 import React from 'react';
 
-interface IMyListButton {
+interface IMyListButtonProps {
 	count: number;
 }
-export const MyListButton: React.FC<IMyListButton> = ({ count }) => (
+export const MyListButton: React.FC<IMyListButtonProps> = ({ count }) => (
   <button className="btn btn--list film-card__button" type="button">
     <svg viewBox="0 0 19 20">
       <use xlinkHref="#add" />
