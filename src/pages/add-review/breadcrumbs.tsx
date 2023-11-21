@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TFilm } from '../../types/TFilm.ts';
+import { Film } from '../../types/film.ts';
 
 interface BreadcrumbsProps {
-	film?: TFilm;
+	film?: Film;
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ film }) => (

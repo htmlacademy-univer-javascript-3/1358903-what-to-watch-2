@@ -1,11 +1,25 @@
 import {FC} from 'react';
 import { useParams } from 'react-router-dom';
-import { films } from '../../mocks/films.ts';
 import { Page404 } from '../page-404/page-404.tsx';
+import { useAppSelector } from '../../hooks/store.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { Spinner } from '../../components/spinner/spinner.tsx';
 
 export const Player: FC = () => {
   const params = useParams();
-  const film = films.find((f) => f.id === params.id);
+  const films = useAppSelector(selectFilmsData);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const film = films?.find((f) => f.id === params.id);
+
+
+  if (filmsError || !film) {
+    return <Page404/>;
+  }
+
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
 
   return (<div>
     {

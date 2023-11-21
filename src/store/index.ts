@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { catalog } from './reducer.ts';
+import { reducer } from './reducer.ts';
 import { axiosInstance } from '../services/api.ts';
 
 
 export const store = configureStore({
   reducer: {
-    catalog
+    reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

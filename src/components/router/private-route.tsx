@@ -1,10 +1,14 @@
 import { FC, ReactElement } from 'react';
 import {Navigate} from 'react-router-dom';
+import { useAppSelector } from '../../hooks/store.ts';
+import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 
-interface IPrivateRoute {
-  isAuth: boolean;
+interface IPrivateRouteProps {
   children: ReactElement;
   redirectPath?: string;
 }
-export const PrivateRoute: FC<IPrivateRoute> = ({isAuth, children, redirectPath = '/login'}) => isAuth ? children : <Navigate to={redirectPath} replace />;
+export const PrivateRoute: FC<IPrivateRouteProps> = ({children, redirectPath = '/login'}) => {
+  const isAuth = useAppSelector(authorizationStatusData);
+  return isAuth ? children : <Navigate to={redirectPath} replace />;
+};
 

@@ -2,12 +2,11 @@ import { FC, useEffect } from 'react';
 import { Footer } from '../../components/footer/footer.tsx';
 import { FilmCard } from '../../components/film-card/film-card.tsx';
 import { Catalog } from '../../components/catalog/catalog.tsx';
-
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
-import { fetchMovies } from '../../store/action.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/reducer.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { fetchMovies } from '../../store/api-actions.ts';
 
 export const Main: FC = () => {
   const dispatch = useAppDispatch();

@@ -1,21 +1,28 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { GenresItem } from './genres-item.tsx';
-import { ECatalog, eCatalogValues } from '../../types/ECatalog.ts';
+import { ECatalog, eCatalogValues } from '../../types/catalog.ts';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
-import { fetchMovies, setGenre } from '../../store/action.ts';
+import { setGenre } from '../../store/action.ts';
 import { Page404 } from '../../pages/page-404/page-404.tsx';
 import { Spinner } from '../spinner/spinner.tsx';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/reducer.ts';
+import {
+  currentGenre,
+  selectFilmsData,
+  selectFilmsError,
+  selectFilmsStatus
+} from '../../store/films/film-selectors.ts';
+import { fetchMovies } from '../../store/api-actions.ts';
+
 
 const VISIBLE_FILMS_COUNT = 8;
 
-interface ICatalog {
+interface ICatalogProps {
   withGenres?: boolean;
 }
-export const Catalog: FC<ICatalog> = ({withGenres}) => {
+export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
-  const currentGenre = useAppSelector((state) => state.catalog.genre);
+  const genre = useAppSelector(currentGenre);
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
@@ -34,11 +41,11 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
 
 
   const filteredFilms = useMemo(() => {
-    if (currentGenre === ECatalog.All) {
+    if (genre === ECatalog.All) {
       return films;
     }
-    return films?.filter((film) => film.genre === currentGenre);
-  }, [currentGenre, films]);
+    return films?.filter((film) => film.genre === genre);
+  }, [genre, films]);
 
   const handleShowMoreClick = useCallback(() => {
     const newVisibleCount = Math.min(visibleFilmsCount + VISIBLE_FILMS_COUNT, filteredFilms?.length || 0);
@@ -65,7 +72,7 @@ export const Catalog: FC<ICatalog> = ({withGenres}) => {
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list">
         {
-          withGenres && eCatalogValues.map((catalog) => <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === currentGenre}/>)
+          withGenres && eCatalogValues.map((catalog) => <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre}/>)
         }
       </ul>
 

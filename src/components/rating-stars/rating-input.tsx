@@ -2,11 +2,11 @@ import { FC, useCallback } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 
-interface IRatingInput {
+interface IRatingInputProps {
   rating: number;
   onChangeRating: (value: number) => void;
 }
-export const RatingInput: FC<IRatingInput> = ({
+export const RatingInput: FC<IRatingInputProps> = ({
   rating, onChangeRating
 }) => {
 

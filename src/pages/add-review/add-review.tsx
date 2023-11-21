@@ -2,17 +2,23 @@ import { FC, useCallback } from 'react';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
 import { Breadcrumbs } from './breadcrumbs.tsx';
-import { films } from '../../mocks/films.ts';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
-import { IFormAddReview } from '../../types/IFormAddReview.ts';
+import { FormAddReview } from '../../types/form-add-review.ts';
 import { useParams } from 'react-router-dom';
+import { Page404 } from '../page-404/page-404.tsx';
+import { useAppSelector } from '../../hooks/store.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { Spinner } from '../../components/spinner/spinner.tsx';
 export const AddReview: FC = () => {
 
   const params = useParams();
-  const film = films.find((f) => f.id === params.id);
+  const films = useAppSelector(selectFilmsData);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const film = films?.find((f) => f.id === params.id);
 
-  const methods = useForm<IFormAddReview>({
+  const methods = useForm<FormAddReview>({
     defaultValues: {
       rating: 1,
       text: '',
@@ -25,7 +31,7 @@ export const AddReview: FC = () => {
   } = methods;
 
 
-  const onSubmit: SubmitHandler<IFormAddReview> = useCallback((data) => {
+  const onSubmit: SubmitHandler<FormAddReview> = useCallback((data) => {
     console.log(data);
   }, []);
 
@@ -37,11 +43,20 @@ export const AddReview: FC = () => {
     setValue('rating', value);
   }, [setValue]);
 
+  if (filmsError) {
+    return <Page404/>;
+  }
+
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
+
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film?.imageUrl} alt={film?.title} />
+          <img src={film?.previewImage} alt={film?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -54,8 +69,8 @@ export const AddReview: FC = () => {
 
         <div className="film-card__poster film-card__poster--small">
           <img
-            src={film?.imageUrl}
-            alt={film?.title}
+            src={film?.previewImage}
+            alt={film?.name}
             width="218"
             height="327"
           />

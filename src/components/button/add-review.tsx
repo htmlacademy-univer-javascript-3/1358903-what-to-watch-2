@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import { FC } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
-interface IAddReview {
-  id: string;
-}
-export const AddReview: FC<IAddReview> = ({id}) => (
-  <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
-);
+
+export const AddReview = () => {
+  const { id } = useParams();
+  const filmId = id ?? '';
+  return <Link to={`/films/${filmId}/review`} className="btn film-card__button">Add review</Link>;
+};
+
