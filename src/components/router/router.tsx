@@ -9,19 +9,17 @@ import {AddReview} from '../../pages/add-review/add-review.tsx';
 import {Player} from '../../pages/player/player.tsx';
 import {PrivateRoute} from './private-route.tsx';
 import { MyList } from '../../pages/my-list/my-list.tsx';
-import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
-import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
+import { useAppDispatch } from '../../hooks/store.ts';
 import { fetchMovies, getAuthorizationStatus } from '../../store/api-actions.ts';
 
 
 export const AppRouter: FC = () => {
-  const authorizationStatus = useAppSelector(authorizationStatusData);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getAuthorizationStatus());
     dispatch(fetchMovies());
-  }, [authorizationStatus, dispatch]);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
