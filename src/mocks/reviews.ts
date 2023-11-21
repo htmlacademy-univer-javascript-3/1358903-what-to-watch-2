@@ -1,6 +1,6 @@
-import { Review } from '../types/review.ts';
+import { IReview } from '../types/review.ts';
 
-export const reviews: Review[] = [
+export const reviews: IReview[] = [
   {
     text: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director\'s funniest and most exquisitely designed films in years.',
     author: 'Kate Muir',
