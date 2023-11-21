@@ -71,23 +71,25 @@ export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list">
-        {
-          withGenres && eCatalogValues.map((catalog) => <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre}/>)
-        }
+        {withGenres &&
+          eCatalogValues.map((catalog) => (
+            <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre} />
+          ))}
       </ul>
-
 
       <div className="catalog__films-list">
         {filteredFilms?.slice(0, visibleFilmsCount).map((film) => (
           <SmallFilmCard key={film.id} film={film} />
         ))}
       </div>
-      {
-        isShowMore && (<div className="catalog__more">
-          <button className="catalog__button" type="button" onClick={handleShowMoreClick}>Show more</button>
-        </div>)
-      }
 
+      {isShowMore && (
+        <div className="catalog__more">
+          <button className="catalog__button" type="button" onClick={handleShowMoreClick}>
+            Show more
+          </button>
+        </div>
+      )}
     </section>
   );
 };

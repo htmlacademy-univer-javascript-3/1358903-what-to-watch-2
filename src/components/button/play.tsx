@@ -9,5 +9,5 @@ export const Play = () => {
       <use xlinkHref="#play-s" />
     </svg>
     <span>Play</span>
-          </Link>);
+  </Link>);
 };

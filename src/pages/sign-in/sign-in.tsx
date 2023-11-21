@@ -17,11 +17,11 @@ export const SignIn: FC = () => {
 
   const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setSignIn({
-      ...signIn,
+    setSignIn((prevSignIn) => ({
+      ...prevSignIn,
       [name]: value
-    });
-  }, [signIn]);
+    }));
+  }, []);
 
   const handleSignIn = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

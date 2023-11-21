@@ -25,18 +25,19 @@ export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
   if (!films || filmsStatus === 'LOADING') {
     return <Spinner/>;
   }
-
-  return (<div className="page-content">
-    <section className="catalog catalog--like-this">
-      <h2 className="catalog__title">More like this</h2>
-      <div className="catalog__films-list">
-        {filmLikeThis?.map((film) => (
-          <SmallFilmCard film={film} key={film.id} />
-        ))}
-      </div>
-    </section>
-    <Footer />
-  </div>);
+  return (
+    <div className="page-content">
+      <section className="catalog catalog--like-this">
+        <h2 className="catalog__title">More like this</h2>
+        <div className="catalog__films-list">
+          {filmLikeThis?.map((film) => (
+            <SmallFilmCard film={film} key={film.id} />
+          ))}
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
 };
 
 

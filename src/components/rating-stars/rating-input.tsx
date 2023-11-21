@@ -20,18 +20,20 @@ export const RatingInput: FC<IRatingInputProps> = ({
     onChangeRating(Number(value.target.value));
   }, [onChangeRating]);
 
-  return (<>
-    <input
-      className="rating__input"
-      id={`star-${rating}`}
-      type="radio"
-      name="rating"
-      value={rating}
-      onChange={setRatingValue}
-      checked={watchRating === rating}
-    />
-    <label className="rating__label" htmlFor={`star-${rating}`}>
-      Rating {rating}
-    </label>
-  </>);
+  return (
+    <>
+      <input
+        className="rating__input"
+        id={`star-${rating}`}
+        type="radio"
+        name="rating"
+        value={rating}
+        onChange={setRatingValue}
+        checked={watchRating === rating}
+      />
+      <label className="rating__label" htmlFor={`star-${rating}`}>
+        Rating {rating}
+      </label>
+    </>
+  );
 };

@@ -19,7 +19,7 @@ const UserBlock: React.FC = () => {
         Sign out
       </Link>
     </li>
-          </ul>);
+  </ul>);
 };
 
 export default UserBlock;

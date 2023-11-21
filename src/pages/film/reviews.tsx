@@ -70,15 +70,14 @@ export const Reviews: FC = () => {
     return <Spinner/>;
   }
 
-  return (<>
-    {
-      film
-        ? <div className="film-card__reviews film-card__row">
+  return (
+    film
+      ? (
+        <div className="film-card__reviews film-card__row">
           <FilmCardReviewsColumn reviews={firstColumnReviews} />
           <FilmCardReviewsColumn reviews={secondColumnReviews} />
         </div>
-        : <Page404/>
-    }
-  </>
+      )
+      : <Page404 />
   );
 };

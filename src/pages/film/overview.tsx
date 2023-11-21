@@ -38,21 +38,23 @@ export const Overview: FC = () => {
   }
 
   // TODO next task
-  return (<div className="film-card__desc">
+  return (
+    <div className="film-card__desc">
+      <div className="film-rating">
+        <div className="film-rating__score">{score}</div>
+        <p className="film-rating__meta">
+          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__count">{ratingCount} ratings</span>
+        </p>
+      </div>
 
-    <div className="film-rating">
-      <div className="film-rating__score">{score}</div>
-      <p className="film-rating__meta">
-        <span className="film-rating__level">Very good</span>
-        <span className="film-rating__count">{ratingCount} ratings</span>
-      </p>
+      <div className="film-card__text">
+        {/*<p>{film?.description}</p>*/}
+        {/*<p className="film-card__director"><strong>Director: {film?.director}</strong></p>*/}
+        {/*<p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>*/}
+      </div>
     </div>
+  );
 
-    <div className="film-card__text">
-      {/*<p>{film?.description}</p>*/}
-      {/*<p className="film-card__director"><strong>Director: {film?.director}</strong></p>*/}
-      {/*<p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>*/}
-    </div>
-  </div>);
 };
 
