@@ -1,22 +1,32 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
 import { Breadcrumbs } from './breadcrumbs.tsx';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
 import { FormAddReview } from '../../types/form-add-review.ts';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Page404 } from '../page-404/page-404.tsx';
-import { useAppSelector } from '../../hooks/store.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
+import {
+  selectFilmData, selectFilmError, selectFilmStatus
+} from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
+import { addReview, fetchFilm } from '../../store/api-actions.ts';
 export const AddReview: FC = () => {
+  const { id } = useParams();
+  const film = useAppSelector(selectFilmData);
+  const filmError = useAppSelector(selectFilmError);
+  const filmStatus = useAppSelector(selectFilmStatus);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const params = useParams();
-  const films = useAppSelector(selectFilmsData);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
-  const film = films?.find((f) => f.id === params.id);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilm(id));
+    }
+  }, [id, dispatch]);
 
   const methods = useForm<FormAddReview>({
     defaultValues: {
@@ -27,13 +37,20 @@ export const AddReview: FC = () => {
 
   const {
     handleSubmit,
-    setValue
+    setValue,
+    control,
   } = methods;
 
 
-  const onSubmit: SubmitHandler<FormAddReview> = useCallback((data) => {
-    console.log(data);
-  }, []);
+  const onSubmitForm = useCallback((data: FormAddReview) => {
+    if (!film?.id) {
+      return;
+    }
+    dispatch(
+      addReview({ filmId: film.id, rating: +data.rating, comment: data.text })
+    );
+    navigate(`/films/${film.id}`);
+  }, [dispatch, film?.id, navigate]);
 
   const setTextValue = useCallback((value: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue('text', value?.target.value);
@@ -43,20 +60,23 @@ export const AddReview: FC = () => {
     setValue('rating', value);
   }, [setValue]);
 
-  if (filmsError) {
+  if (filmError) {
     return <Page404/>;
   }
 
-  if (!films || filmsStatus === 'LOADING') {
+  if (!film || filmStatus === 'LOADING') {
     return <Spinner/>;
   }
 
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(onSubmitForm)(event);
+  };
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film?.previewImage} alt={film?.name} />
+          <img src={film.previewImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -69,8 +89,8 @@ export const AddReview: FC = () => {
 
         <div className="film-card__poster film-card__poster--small">
           <img
-            src={film?.previewImage}
-            alt={film?.name}
+            src={film.previewImage}
+            alt={film.name}
             width="218"
             height="327"
           />
@@ -79,9 +99,9 @@ export const AddReview: FC = () => {
 
       <div className="add-review">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)} action="#" className="add-review__form">
+          <form onSubmit={handleSubmitForm} action="#" className="add-review__form">
             <div className="rating">
-              <RatingStars onChangeRating={setRatingValue}/>
+              <RatingStars onChangeRating={setRatingValue} control={control}/>
             </div>
 
             <div className="add-review__text">

@@ -1,8 +1,9 @@
 
 
 export interface IReview {
-  text: string;
-  author: string;
+  comment: string;
   date: string;
+  id: number;
   rating: number;
+  user: string;
 }
