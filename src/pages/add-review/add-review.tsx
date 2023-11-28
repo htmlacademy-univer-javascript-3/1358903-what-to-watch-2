@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect } from 'react';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
 import { Breadcrumbs } from './breadcrumbs.tsx';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
 import { FormAddReview } from '../../types/form-add-review.ts';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -41,16 +41,14 @@ export const AddReview: FC = () => {
   } = methods;
 
 
-  const onSubmit: SubmitHandler<FormAddReview> = useCallback((data) => {
+  const onSubmitForm = useCallback((data: FormAddReview) => {
     if (!film?.id) {
       return;
     }
     dispatch(
       addReview({ filmId: film.id, rating: +data.rating, comment: data.text })
-    ).then(() => {
-      navigate(`/films/${film.id}`);
-    });
-
+    );
+    navigate(`/films/${film.id}`);
   }, [dispatch, film?.id, navigate]);
 
   const setTextValue = useCallback((value: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,6 +67,9 @@ export const AddReview: FC = () => {
     return <Spinner/>;
   }
 
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(onSubmitForm)(event);
+  };
 
   return (
     <section className="film-card film-card--full">
@@ -97,7 +98,7 @@ export const AddReview: FC = () => {
 
       <div className="add-review">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)} action="#" className="add-review__form">
+          <form onSubmit={handleSubmitForm} action="#" className="add-review__form">
             <div className="rating">
               <RatingStars onChangeRating={setRatingValue}/>
             </div>

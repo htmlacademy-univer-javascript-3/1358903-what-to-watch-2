@@ -27,21 +27,22 @@ export const Main: FC = () => {
     }
   }, [dispatch, films]);
 
-
   if (filmError) {
-    return <Page404/>;
+    return <Page404 />;
   }
 
   if (!film || filmStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
-  return (<>
-    <FilmCard film={film} />
+  return (
+    <>
+      <FilmCard film={film} />
 
-    <div className="page-content">
-      <Catalog withGenres />
-      <Footer/>
-    </div>
-  </>);
+      <div className="page-content">
+        <Catalog withGenres />
+        <Footer />
+      </div>
+    </>
+  );
 };
