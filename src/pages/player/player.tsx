@@ -12,22 +12,23 @@ export const Player: FC = () => {
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const film = films?.find((f) => f.id === params.id);
 
-
   if (filmsError || !film) {
-    return <Page404/>;
+    return <Page404 />;
   }
 
   if (!films || filmsStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
-  return (<div>
-    {
-      film ?
+  return (
+    <div>
+      {film ? (
         <div className="player">
           <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
 
-          <button type="button" className="player__exit">Exit</button>
+          <button type="button" className="player__exit">
+            Exit
+          </button>
 
           <div className="player__controls">
             <div className="player__controls-row">
@@ -56,7 +57,9 @@ export const Player: FC = () => {
             </div>
           </div>
         </div>
-        : <Page404/>
-    }
-  </div>);
+      ) : (
+        <Page404 />
+      )}
+    </div>
+  );
 };

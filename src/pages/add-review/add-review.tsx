@@ -37,7 +37,8 @@ export const AddReview: FC = () => {
 
   const {
     handleSubmit,
-    setValue
+    setValue,
+    control,
   } = methods;
 
 
@@ -100,7 +101,7 @@ export const AddReview: FC = () => {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmitForm} action="#" className="add-review__form">
             <div className="rating">
-              <RatingStars onChangeRating={setRatingValue}/>
+              <RatingStars onChangeRating={setRatingValue} control={control}/>
             </div>
 
             <div className="add-review__text">
