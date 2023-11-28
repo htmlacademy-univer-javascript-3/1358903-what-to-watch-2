@@ -5,31 +5,39 @@ import { Catalog } from '../../components/catalog/catalog.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
-import { fetchMovies } from '../../store/api-actions.ts';
+import {
+  selectFilmData,
+  selectFilmsData,
+  selectFilmsError,
+  selectFilmsStatus
+} from '../../store/films/film-selectors.ts';
+import { fetchMovies, fetchPromo } from '../../store/api-actions.ts';
 
 export const Main: FC = () => {
   const dispatch = useAppDispatch();
+  const film = useAppSelector(selectFilmData);
   const films = useAppSelector(selectFilmsData);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const filmError = useAppSelector(selectFilmsError);
+  const filmStatus = useAppSelector(selectFilmsStatus);
 
   useEffect(() => {
+    dispatch(fetchPromo());
     if (films === null) {
       dispatch(fetchMovies());
     }
   }, [dispatch, films]);
 
-  if (filmsError) {
+
+  if (filmError) {
     return <Page404/>;
   }
 
-  if (!films || filmsStatus === 'LOADING') {
+  if (!film || filmStatus === 'LOADING') {
     return <Spinner/>;
   }
 
   return (<>
-    <FilmCard film={films[0]} />
+    <FilmCard film={film} />
 
     <div className="page-content">
       <Catalog withGenres />

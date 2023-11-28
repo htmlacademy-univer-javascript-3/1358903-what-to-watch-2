@@ -2,7 +2,9 @@ import { FC } from 'react';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import { Footer } from '../footer/footer.tsx';
 import { useAppSelector } from '../../hooks/store.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import {
+  selectSimilarData, selectSimilarError, selectSimilarStatus
+} from '../../store/films/film-selectors.ts';
 import { Page404 } from '../../pages/page-404/page-404.tsx';
 import { Spinner } from '../spinner/spinner.tsx';
 
@@ -11,18 +13,20 @@ interface ILikeThisProps {
 }
 export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
 
-  const films = useAppSelector(selectFilmsData);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
 
-  const filmLikeThis = films?.filter((film) => film.genre === genre).slice(0, 4);
+  const similar = useAppSelector(selectSimilarData);
+  const similarStatus = useAppSelector(selectSimilarStatus);
+  const similarError = useAppSelector(selectSimilarError);
 
 
-  if (filmsError) {
+  const filmLikeThis = similar?.filter((film) => film.genre === genre).slice(0, 4);
+
+
+  if (similarError) {
     return <Page404/>;
   }
 
-  if (!films || filmsStatus === 'LOADING') {
+  if (!similar || similarStatus === 'LOADING') {
     return <Spinner/>;
   }
   return (
