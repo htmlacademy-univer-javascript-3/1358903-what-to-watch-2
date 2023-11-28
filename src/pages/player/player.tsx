@@ -6,11 +6,11 @@ import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../stor
 import { Spinner } from '../../components/spinner/spinner.tsx';
 
 export const Player: FC = () => {
-  const params = useParams();
+  const { id = '' } = useParams();
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
-  const film = films?.find((f) => f.id === params.id);
+  const film = films?.find((f) => f.id === id);
 
   if (filmsError || !film) {
     return <Page404 />;
