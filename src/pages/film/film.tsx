@@ -5,10 +5,10 @@ import UserBlock from '../../components/user-block/user-block.tsx';
 import { Buttons } from '../../components/button/buttons.ts';
 import { Tabs } from '../../components/tabs/tabs.tsx';
 import { ITab } from '../../components/tabs/types.ts';
-import { Overview } from './overview.tsx';
-import { Details } from './details.tsx';
-import { Reviews } from './reviews.tsx';
-import { LikeThis } from '../../components/like-this/like-this.tsx';
+import { OverviewMemo } from './overview.tsx';
+import { DetailsMemo } from './details.tsx';
+import { ReviewsMemo } from './reviews.tsx';
+import { LikeThisMemo } from '../../components/like-this/like-this.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
@@ -42,15 +42,15 @@ export const Film: FC = () => {
   const tabs: ITab[] = [
     {
       label: 'Overview',
-      component: <Overview />
+      component: <OverviewMemo />
     },
     {
       label: 'Details',
-      component: <Details />
+      component: <DetailsMemo />
     },
     {
       label: 'Reviews',
-      component: <Reviews />
+      component: <ReviewsMemo />
     }
   ];
 
@@ -62,7 +62,7 @@ export const Film: FC = () => {
   if (filmError) {
     return <Page404/>;
   }
-  // TODO next task
+
   return (
     <>
       <section className="film-card film-card--full">
@@ -118,7 +118,7 @@ export const Film: FC = () => {
         </div>
       </section>
 
-      <LikeThis genre={film.genre}/>
+      <LikeThisMemo genre={film.genre}/>
     </>
   );
 };

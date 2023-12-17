@@ -1,7 +1,7 @@
-import { FC, useEffect } from 'react';
+import { FC, memo, useEffect } from 'react';
 import { Footer } from '../../components/footer/footer.tsx';
-import { FilmCard } from '../../components/film-card/film-card.tsx';
-import { Catalog } from '../../components/catalog/catalog.tsx';
+import { FilmCardMemo } from '../../components/film-card/film-card.tsx';
+import { CatalogMemo } from '../../components/catalog/catalog.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
@@ -13,7 +13,7 @@ import {
 } from '../../store/films/film-selectors.ts';
 import { fetchMovies, fetchPromo } from '../../store/api-actions.ts';
 
-export const Main: FC = () => {
+const MainPage: FC = () => {
   const dispatch = useAppDispatch();
   const film = useAppSelector(selectFilmData);
   const films = useAppSelector(selectFilmsData);
@@ -37,12 +37,14 @@ export const Main: FC = () => {
 
   return (
     <>
-      <FilmCard film={film} />
+      <FilmCardMemo film={film} />
 
       <div className="page-content">
-        <Catalog withGenres />
+        <CatalogMemo withGenres />
         <Footer />
       </div>
     </>
   );
 };
+
+export const Main = memo(MainPage);

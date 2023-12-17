@@ -1,11 +1,11 @@
-import { useRef, FC } from 'react';
+import { useRef, FC, memo } from 'react';
 
 interface IVideoPlayerProps {
   videoUrl: string;
   previewImageUrl: string;
   isPlaying: boolean;
 }
-export const VideoPlayer: FC<IVideoPlayerProps> = ({ videoUrl, previewImageUrl, isPlaying }) => {
+const VideoPlayer: FC<IVideoPlayerProps> = ({ videoUrl, previewImageUrl, isPlaying }) => {
   const videoRef = useRef(null);
 
   return (
@@ -18,3 +18,5 @@ export const VideoPlayer: FC<IVideoPlayerProps> = ({ videoUrl, previewImageUrl, 
     </div>
   );
 };
+
+export const VideoPlayerMemo = memo(VideoPlayer);

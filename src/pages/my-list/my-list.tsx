@@ -1,6 +1,6 @@
-import { FC, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { Footer } from '../../components/footer/footer.tsx';
-import { FilmCard } from '../../components/film-card/film-card.tsx';
+import { FilmCardMemo } from '../../components/film-card/film-card.tsx';
 import Logo from '../../components/logo/logo.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
 import { Spinner } from '../../components/spinner/spinner.tsx';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/api-actions.ts';
 
 
-export const MyList: FC = () => {
+export const MyListPage: FC = () => {
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
@@ -53,7 +53,7 @@ export const MyList: FC = () => {
 
         <div className="catalog__films-list">
           {
-            films.map((film) => <FilmCard key={film.id} film={film}/>)
+            films.map((film) => <FilmCardMemo key={film.id} film={film}/>)
           }
         </div>
       </section>
@@ -62,3 +62,5 @@ export const MyList: FC = () => {
     </div>
   );
 };
+
+export const MyList = memo(MyListPage);

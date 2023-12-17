@@ -1,11 +1,11 @@
-import {FC} from 'react';
+import { FC, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Page404 } from '../page-404/page-404.tsx';
 import { useAppSelector } from '../../hooks/store.ts';
 import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 
-export const Player: FC = () => {
+export const PlayerPage: FC = () => {
   const { id = '' } = useParams();
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
@@ -63,3 +63,5 @@ export const Player: FC = () => {
     </div>
   );
 };
+
+export const Player = memo(PlayerPage);

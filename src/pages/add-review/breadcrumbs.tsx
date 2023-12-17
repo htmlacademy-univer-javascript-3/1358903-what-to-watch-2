@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Film } from '../../types/film.ts';
 
@@ -6,7 +6,7 @@ interface BreadcrumbsProps {
 	film?: Film;
 }
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ film }) => (
+const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ film }) => (
   <nav className="breadcrumbs">
     <ul className="breadcrumbs__list">
       <li className="breadcrumbs__item">
@@ -23,3 +23,4 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ film }) => (
   </nav>
 );
 
+export const BreadcrumbsMemo = memo(Breadcrumbs);

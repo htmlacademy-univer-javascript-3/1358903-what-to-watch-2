@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Film } from '../../types/film.ts';
-import { VideoPlayer } from '../video-player/video-player.tsx';
+import { VideoPlayerMemo } from '../video-player/video-player.tsx';
 
 const PLAYER_TIMEOUT = 1000;
 
@@ -10,11 +10,11 @@ interface IFilmCardProps {
   film: Film;
 }
 
-export const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
+const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
   const {previewImage, id, previewVideoLink, name} = film;
   const [isPlaying, setIsPlaying] = useState(false);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     if (timeoutId.current) {
       clearTimeout(timeoutId.current);
     }
@@ -22,15 +22,15 @@ export const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
     timeoutId.current = setTimeout(() => {
       setIsPlaying(true);
     }, PLAYER_TIMEOUT);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     if (timeoutId.current) {
       clearTimeout(timeoutId.current);
     }
 
     setIsPlaying(false);
-  };
+  }, []);
 
 
   return (
@@ -39,7 +39,7 @@ export const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <VideoPlayer isPlaying={isPlaying} videoUrl={previewVideoLink} previewImageUrl={previewImage}/>
+        <VideoPlayerMemo isPlaying={isPlaying} videoUrl={previewVideoLink} previewImageUrl={previewImage}/>
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
@@ -47,3 +47,5 @@ export const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
     </article>
   );
 };
+
+export const SmallFilmCardMemo = memo(SmallFilmCard);

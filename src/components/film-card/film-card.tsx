@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Buttons } from '../button/buttons.ts';
 import UserBlock from '../user-block/user-block.tsx';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Film } from '../../types/film.ts';
 
 interface IFilmCardProps {
   film: Film;
 }
 
-export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
+const FilmCard: FC<IFilmCardProps> = ({ film }) => {
   const { backgroundImage, name, genre, id, posterImage, released } = film;
 
   return (
@@ -49,3 +49,5 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
     </section>
   );
 };
+
+export const FilmCardMemo = memo(FilmCard);

@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { IReview } from '../../types/review.ts';
 import { useAppSelector } from '../../hooks/store.ts';
@@ -7,7 +7,7 @@ import { Page404 } from '../page-404/page-404.tsx';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 
 
-export const Overview: FC = () => {
+const Overview: FC = () => {
   const params = useParams();
   const films = useAppSelector(selectFilmsData);
   const film = films?.find((f) => f.id === params.id);
@@ -20,7 +20,7 @@ export const Overview: FC = () => {
     }
     return reviews.reduce((acc, next) => acc + next.rating, 0);
   }, []);
-  // TODO add reviews
+
   const score = useMemo(() => {
     const totalRating = calculateTotalRating([]);
     return totalRating / ([]?.length || 1); // Используем 1, чтобы избежать деления на 0
@@ -37,7 +37,6 @@ export const Overview: FC = () => {
     return <Spinner/>;
   }
 
-  // TODO next task
   return (
     <div className="film-card__desc">
       <div className="film-rating">
@@ -49,12 +48,13 @@ export const Overview: FC = () => {
       </div>
 
       <div className="film-card__text">
-        {/*<p>{film?.description}</p>*/}
-        {/*<p className="film-card__director"><strong>Director: {film?.director}</strong></p>*/}
-        {/*<p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>*/}
+        <p>{film?.description}</p>
+        <p className="film-card__director"><strong>Director: {film?.director}</strong></p>
+        <p className="film-card__starring"><strong>Starring: {film?.starring.join(', ')}</strong></p>
       </div>
     </div>
   );
 
 };
 
+export const OverviewMemo = memo(Overview);

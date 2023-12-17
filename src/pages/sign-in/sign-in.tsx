@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 import { Footer } from '../../components/footer/footer.tsx';
 import Logo from '../../components/logo/logo.tsx';
 import { IAuth } from '../../types/api.ts';
@@ -6,7 +6,7 @@ import { login } from '../../store/api-actions.ts';
 import { useAppDispatch } from '../../hooks/store.ts';
 
 
-export const SignIn: FC = () => {
+export const SignInPage: FC = () => {
   const dispatch = useAppDispatch();
 
   const [signIn, setSignIn] = useState<IAuth>({
@@ -75,3 +75,5 @@ export const SignIn: FC = () => {
     </div>
   );
 };
+
+export const SignIn = memo(SignInPage);
