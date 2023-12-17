@@ -1,7 +1,7 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { GenresItem } from './genres-item.tsx';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { GenresItemMemo } from './genres-item.tsx';
 import { ECatalog, eCatalogValues } from '../../types/catalog.ts';
-import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
+import { SmallFilmCardMemo } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { setGenre } from '../../store/action.ts';
 import { Page404 } from '../../pages/page-404/page-404.tsx';
@@ -20,7 +20,7 @@ const VISIBLE_FILMS_COUNT = 8;
 interface ICatalogProps {
   withGenres?: boolean;
 }
-export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
+const Catalog: FC<ICatalogProps> = ({withGenres}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
   const genre = useAppSelector(currentGenre);
   const films = useAppSelector(selectFilmsData);
@@ -73,13 +73,13 @@ export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
       <ul className="catalog__genres-list">
         {withGenres &&
           eCatalogValues.map((catalog) => (
-            <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre} />
+            <GenresItemMemo catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre} />
           ))}
       </ul>
 
       <div className="catalog__films-list">
         {filteredFilms?.slice(0, visibleFilmsCount).map((film) => (
-          <SmallFilmCard key={film.id} film={film} />
+          <SmallFilmCardMemo key={film.id} film={film} />
         ))}
       </div>
 
@@ -93,3 +93,6 @@ export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
     </section>
   );
 };
+
+
+export const CatalogMemo = memo(Catalog);

@@ -6,7 +6,7 @@ interface IGenresItemProps {
   setGenre: (newGenre: ECatalog) => () => void;
   isActive: boolean;
 }
-export const GenresItem: React.FC<IGenresItemProps> = ({
+const GenresItem: React.FC<IGenresItemProps> = ({
   catalog, setGenre, isActive
 }) => (
   <li
@@ -22,3 +22,4 @@ export const GenresItem: React.FC<IGenresItemProps> = ({
   </li>
 );
 
+export const GenresItemMemo = React.memo(GenresItem);

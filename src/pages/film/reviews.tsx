@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import { IReview } from '../../types/review.ts';
 import { Page404 } from '../page-404/page-404.tsx';
 import { useAppSelector } from '../../hooks/store.ts';
@@ -35,8 +35,9 @@ const FilmCardReviewsColumn: FC<IFilmCardReviewsColumnProps> = ({ reviews }) => 
   </div>
 );
 
+const FilmCardReviewsColumnMemo = memo(FilmCardReviewsColumn);
 
-export const Reviews: FC = () => {
+const Reviews: FC = () => {
   const reviews = useAppSelector(selectReviewsData);
   const reviewsStatus = useAppSelector(selectReviewsStatus);
   const reviewsError = useAppSelector(selectReviewsError);
@@ -70,10 +71,12 @@ export const Reviews: FC = () => {
     reviews
       ? (
         <div className="film-card__reviews film-card__row">
-          <FilmCardReviewsColumn reviews={firstColumnReviews} />
-          <FilmCardReviewsColumn reviews={secondColumnReviews} />
+          <FilmCardReviewsColumnMemo reviews={firstColumnReviews} />
+          <FilmCardReviewsColumnMemo reviews={secondColumnReviews} />
         </div>
       )
       : <Page404 />
   );
 };
+
+export const ReviewsMemo = memo(Reviews);

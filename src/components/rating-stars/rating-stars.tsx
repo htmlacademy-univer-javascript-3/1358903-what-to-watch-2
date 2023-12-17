@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { RatingInput } from './rating-input.tsx';
 import { Control } from 'react-hook-form';
 import { FormAddReview } from '../../types/form-add-review.ts';
@@ -10,7 +10,7 @@ interface IRatingStarsProps {
   onChangeRating: (value: number) => void;
   control: Control<FormAddReview>;
 }
-export const RatingStars: FC<IRatingStarsProps> = ({onChangeRating, control}) => (
+const RatingStars: FC<IRatingStarsProps> = ({onChangeRating, control}) => (
   <div className="rating__stars">
     {ratings.map((rating) => (
       <RatingInput
@@ -21,4 +21,6 @@ export const RatingStars: FC<IRatingStarsProps> = ({onChangeRating, control}) =>
       />))}
   </div>
 );
+
+export const RatingStarsMemo = memo(RatingStars);
 

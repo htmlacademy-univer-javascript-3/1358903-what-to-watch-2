@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
+import { FC, memo } from 'react';
+import { SmallFilmCardMemo } from '../small-film-card/small-film-card.tsx';
 import { Footer } from '../footer/footer.tsx';
 import { useAppSelector } from '../../hooks/store.ts';
 import {
@@ -35,7 +35,7 @@ export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
         <h2 className="catalog__title">More like this</h2>
         <div className="catalog__films-list">
           {filmLikeThis?.map((film) => (
-            <SmallFilmCard film={film} key={film.id} />
+            <SmallFilmCardMemo film={film} key={film.id} />
           ))}
         </div>
       </section>
@@ -45,3 +45,4 @@ export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
 };
 
 
+export const LikeThisMemo = memo(LikeThis);

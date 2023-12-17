@@ -1,9 +1,9 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, memo, useCallback, useEffect } from 'react';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
-import { Breadcrumbs } from './breadcrumbs.tsx';
+import { BreadcrumbsMemo } from './breadcrumbs.tsx';
 import { FormProvider, useForm } from 'react-hook-form';
-import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
+import { RatingStarsMemo } from '../../components/rating-stars/rating-stars.tsx';
 import { FormAddReview } from '../../types/form-add-review.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Page404 } from '../page-404/page-404.tsx';
@@ -13,7 +13,7 @@ import {
 } from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { addReview, fetchFilm } from '../../store/api-actions.ts';
-export const AddReview: FC = () => {
+const AddReviewPage: FC = () => {
   const { id } = useParams();
   const film = useAppSelector(selectFilmData);
   const filmError = useAppSelector(selectFilmError);
@@ -83,7 +83,7 @@ export const AddReview: FC = () => {
 
         <header className="page-header">
           <Logo />
-          <Breadcrumbs film={film}/>
+          <BreadcrumbsMemo film={film}/>
           <UserBlock />
         </header>
 
@@ -101,7 +101,7 @@ export const AddReview: FC = () => {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmitForm} action="#" className="add-review__form">
             <div className="rating">
-              <RatingStars onChangeRating={setRatingValue} control={control}/>
+              <RatingStarsMemo onChangeRating={setRatingValue} control={control}/>
             </div>
 
             <div className="add-review__text">
@@ -119,3 +119,5 @@ export const AddReview: FC = () => {
     </section>
   );
 };
+
+export const AddReview = memo(AddReviewPage);
