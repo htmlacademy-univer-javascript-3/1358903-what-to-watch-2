@@ -19,3 +19,8 @@ export const selectReviewsError = (state: RootState) => selectFilms(state).revie
 export const selectSimilarData = (state: RootState) => selectFilms(state).similar.apiData;
 export const selectSimilarStatus = (state: RootState) => selectFilms(state).similar.apiStatus;
 export const selectSimilarError = (state: RootState) => selectFilms(state).similar.apiError;
+
+export const selectfavoriteFilmsData = (state: RootState) => selectFilms(state).favoriteFilms.apiData;
+export const selectfavoriteFilmsStatus = (state: RootState) => selectFilms(state).favoriteFilms.apiStatus;
+export const selecfavoriteFilmsError = (state: RootState) => selectFilms(state).favoriteFilms.apiError;
+

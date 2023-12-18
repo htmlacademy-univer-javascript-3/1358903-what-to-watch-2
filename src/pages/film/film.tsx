@@ -54,7 +54,6 @@ export const Film: FC = () => {
     }
   ];
 
-
   if (!film || filmStatus === 'LOADING') {
     return <Spinner/>;
   }
@@ -91,8 +90,8 @@ export const Film: FC = () => {
               </p>
 
               <div className="film-card__buttons">
-                <Buttons.Play />
-                <Buttons.MyListButton count={12} />
+                <Buttons.Play filmId={id}/>
+                <Buttons.MyListButton filmId={id} />
                 {
                   isAuth && <Buttons.AddReview filmId={id}/>
                 }

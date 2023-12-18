@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from './index.ts';
+import { AppDispatch, RootState } from './index.ts';
 import axios, { AxiosResponse } from 'axios';
 import { IUser } from '../types/user.ts';
 import { Film } from '../types/film.ts';
@@ -157,13 +157,15 @@ export const fetchSimilar = createAsyncThunk(
   }
 );
 
-export const setFavorite = createAsyncThunk<Film, { status: boolean; filmId: string }>(
+export const setFavorite = createAsyncThunk<Film, { status: boolean; filmId: string }, {dispatch: AppDispatch}>(
   'films/setFavorite',
-  async ({ status, filmId }) => {
+  async ({ status, filmId }, {dispatch}) => {
     try {
       const { data } = await axiosInstance.post<Film>(
-        `/favorite/${filmId}/${status ? 1 : 0}`
+        `/favorite/${filmId}/${status ? 0 : 1}`
       );
+      dispatch(fetchFilm(filmId));
+      dispatch(fetchFavoriteFilms());
       return data;
     } catch (e) {
       if (axios.isAxiosError(e)) {

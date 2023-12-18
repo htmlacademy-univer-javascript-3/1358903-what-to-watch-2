@@ -39,8 +39,8 @@ const FilmCard: FC<IFilmCardProps> = ({ film }) => {
               <span className="film-card__year">{released}</span>
             </p>
             <div className="film-card__buttons">
-              <Buttons.Play />
-              <Buttons.MyListButton count={12} />
+              <Buttons.Play filmId={id}/>
+              <Buttons.MyListButton filmId={id}/>
               <Buttons.AddReview filmId={id}/>
             </div>
           </div>
