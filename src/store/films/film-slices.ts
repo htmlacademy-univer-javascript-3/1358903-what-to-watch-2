@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Film } from '../../types/film.ts';
 import { ECatalog } from '../../types/catalog.ts';
 import { ApiStatusPendingEnum, ApiStatusState, EReducers, initialApiState } from '../../types/api.ts';
-import { fetchFilm, fetchMovies, fetchPromo, fetchReviews, fetchSimilar } from '../api-actions.ts';
+import { fetchFavoriteFilms, fetchFilm, fetchMovies, fetchPromo, fetchReviews, fetchSimilar } from '../api-actions.ts';
 import { setGenre } from '../action.ts';
 import { IReview } from '../../types/review.ts';
 
@@ -12,11 +12,13 @@ export interface IFilmsState {
   film: ApiStatusState<Film>;
   reviews: ApiStatusState<IReview[]>;
   similar: ApiStatusState<Film[]>;
+  favoriteFilms: ApiStatusState<Film[]>;
 }
 
 const initialState: IFilmsState = {
   genre: ECatalog.All,
   films: initialApiState,
+  favoriteFilms: initialApiState,
   film: initialApiState,
   reviews: initialApiState,
   similar: initialApiState,
@@ -56,6 +58,19 @@ export const filmSlice = createSlice({
         state.film.apiStatus = ApiStatusPendingEnum.ERROR;
         state.film.apiError = action.error.message || 'error';
       })
+
+      .addCase(fetchFavoriteFilms.pending, (state) => {
+        state.favoriteFilms.apiStatus = ApiStatusPendingEnum.LOADING;
+      })
+      .addCase(fetchFavoriteFilms.fulfilled, (state, action: PayloadAction<Film[]>) => {
+        state.favoriteFilms.apiStatus = ApiStatusPendingEnum.LOAD;
+        state.favoriteFilms.apiData = action.payload;
+      })
+      .addCase(fetchFavoriteFilms.rejected, (state, action) => {
+        state.favoriteFilms.apiStatus = ApiStatusPendingEnum.ERROR;
+        state.favoriteFilms.apiError = action.error.message || 'error';
+      })
+
 
       .addCase(fetchPromo.pending, (state) => {
         state.film.apiStatus = ApiStatusPendingEnum.LOADING;

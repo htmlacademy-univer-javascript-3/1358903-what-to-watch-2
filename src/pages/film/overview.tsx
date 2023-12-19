@@ -23,7 +23,7 @@ const Overview: FC = () => {
 
   const score = useMemo(() => {
     const totalRating = calculateTotalRating([]);
-    return totalRating / ([]?.length || 1); // Используем 1, чтобы избежать деления на 0
+    return totalRating / ([]?.length || 1);
   }, [calculateTotalRating]);
 
   const ratingCount = useMemo(() => calculateTotalRating([]), [calculateTotalRating]);
@@ -50,7 +50,7 @@ const Overview: FC = () => {
       <div className="film-card__text">
         <p>{film?.description}</p>
         <p className="film-card__director"><strong>Director: {film?.director}</strong></p>
-        <p className="film-card__starring"><strong>Starring: {film?.starring.join(', ')}</strong></p>
+        <p className="film-card__starring"><strong>Starring: {film?.starring?.join(', ')}</strong></p>
       </div>
     </div>
   );
