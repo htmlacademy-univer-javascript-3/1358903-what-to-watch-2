@@ -1,19 +1,27 @@
-import { ChangeEvent, FC, memo, useCallback, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from 'react';
 import { Footer } from '../../components/footer/footer.tsx';
 import Logo from '../../components/logo/logo.tsx';
 import { IAuth } from '../../types/api.ts';
 import { login } from '../../store/api-actions.ts';
-import { useAppDispatch } from '../../hooks/store.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
+import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
+import { useNavigate } from 'react-router-dom';
 
 
 export const SignInPage: FC = () => {
   const dispatch = useAppDispatch();
-
+  const auth = useAppSelector(authorizationStatusData);
+  const history = useNavigate();
   const [signIn, setSignIn] = useState<IAuth>({
     email: '',
     password: '',
   });
 
+  useEffect(() => {
+    if (auth === true) {
+      history('/');
+    }
+  }, [auth, history]);
 
   const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
