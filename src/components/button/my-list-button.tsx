@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { fetchFavoriteFilms, setFavorite } from '../../store/api-actions.ts';
 import { selectfavoriteFilmsData, selectFilmData } from '../../store/films/film-selectors.ts';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '../icon/icon.tsx';
 
 interface IMyListButtonProps {
   filmId: string;
@@ -16,14 +17,14 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId }) => {
   const selectFavoriteFilms = useAppSelector(selectfavoriteFilmsData);
   const history = useNavigate();
   useEffect(() => {
-    if (authorizationStatus === true){
+    if (authorizationStatus){
       dispatch(fetchFavoriteFilms());
     }
   }, [authorizationStatus, dispatch, film?.isFavorite]);
 
 
   const handleButtonClick = useCallback(() => {
-    if (authorizationStatus === true){
+    if (authorizationStatus){
       dispatch(setFavorite({status: film?.isFavorite ?? false, filmId: filmId}));
     } else {
       history('/login');
@@ -35,12 +36,9 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId }) => {
     <button className="btn btn--list film-card__button" type="button" onClick={handleButtonClick}>
       {
         film?.isFavorite ? (
-          <svg viewBox="0 0 18 14" width="18" height="14" data-testid="in-list">
-            <use xlinkHref="#in-list" />
-          </svg>) : (
-          <svg viewBox="0 0 19 20" width="19" height="20" data-testid="add">
-            <use xlinkHref="#add" />
-          </svg>
+          <Icon xlinkHref={'#in-list'} height={'14'} width={'18'} viewBox={'0 0 18 14'} dataTestId={'in-list'}/>
+        ) : (
+          <Icon xlinkHref={'#add'} height={'20'} width={'19'} viewBox={'0 0 19 20'} dataTestId={'add'}/>
         )
       }
       <span>My list</span>
