@@ -24,13 +24,14 @@ export const authSlice = createSlice({
       .addCase(getAuthorizationStatus.pending, (state) => {
         state.authorizationStatus.apiStatus = ApiStatusPendingEnum.LOADING;
       })
-      .addCase(getAuthorizationStatus.fulfilled, (state) => {
+      .addCase(getAuthorizationStatus.fulfilled, (state, action) => {
         state.authorizationStatus.apiStatus = ApiStatusPendingEnum.LOAD;
         state.authorizationStatus.apiData = true;
+        state.user.apiData = action.payload;
       })
-      .addCase(getAuthorizationStatus.rejected, (state, action) => {
+      .addCase(getAuthorizationStatus.rejected, (state) => {
         state.authorizationStatus.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.authorizationStatus.apiError = action.error?.message || 'error';
+        state.authorizationStatus.apiError = true;
       })
 
 
@@ -39,13 +40,15 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.authorizationStatus.apiStatus = ApiStatusPendingEnum.LOAD;
-        saveToken(action.payload.token);
+        if (action?.payload.token) {
+          saveToken(action.payload.token);
+        }
         state.authorizationStatus.apiData = true;
         state.user.apiData = action.payload;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state) => {
         state.authorizationStatus.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.authorizationStatus.apiError = action.error?.message || 'error';
+        state.authorizationStatus.apiError = true;
       })
 
       .addCase(logout.fulfilled, (state) => {

@@ -16,8 +16,8 @@ const Review: FC<IReviewItemProps> = ({review}) => (
     <blockquote className="review__quote">
       <p className="review__text">{review?.comment}</p>
       <footer className="review__details">
-        <cite className="review__author">{review?.user}</cite>
-        <time className="review__date" dateTime="Дата отзыва">{review?.user}</time>
+        <cite className="review__author">{review?.user.name}</cite>
+        <time className="review__date" dateTime="Дата отзыва">{review?.date}</time>
       </footer>
     </blockquote>
     <div className="review__rating">{review?.rating}</div>

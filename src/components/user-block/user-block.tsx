@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { userStatusData } from '../../store/auth/auth-selectors.ts';
 import { logout } from '../../store/api-actions.ts';
-import 'user-block.scss';
+import './user-block.scss';
 
 const UserBlock: React.FC = () => {
   const dispatch = useAppDispatch();

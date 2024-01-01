@@ -12,6 +12,8 @@ import {
   selectFilmsStatus
 } from '../../store/films/film-selectors.ts';
 import { fetchMovies, fetchPromo } from '../../store/api-actions.ts';
+import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +21,8 @@ const MainPage: FC = () => {
   const films = useAppSelector(selectFilmsData);
   const filmError = useAppSelector(selectFilmsError);
   const filmStatus = useAppSelector(selectFilmsStatus);
+  const isAuth = useAppSelector(authorizationStatusData);
+  const history = useNavigate();
 
   useEffect(() => {
     dispatch(fetchPromo());
@@ -26,6 +30,12 @@ const MainPage: FC = () => {
       dispatch(fetchMovies());
     }
   }, [dispatch, films]);
+
+  useEffect(() => {
+    if (!isAuth) {
+      history('/login');
+    }
+  }, [history, isAuth]);
 
   if (filmError) {
     return <Page404 />;

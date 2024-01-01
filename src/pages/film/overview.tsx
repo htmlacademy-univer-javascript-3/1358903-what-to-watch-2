@@ -1,19 +1,15 @@
 import { FC, memo, useCallback, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
 import { IReview } from '../../types/review.ts';
 import { useAppSelector } from '../../hooks/store.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
-import { Page404 } from '../page-404/page-404.tsx';
+import { selectFilmData, selectFilmStatus, } from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
+import { ApiStatusPendingEnum } from '../../types/api.ts';
+import { Page404 } from '../page-404/page-404.tsx';
 
 
 const Overview: FC = () => {
-  const params = useParams();
-  const films = useAppSelector(selectFilmsData);
-  const film = films?.find((f) => f.id === params.id);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
-
+  const film = useAppSelector(selectFilmData);
+  const filmStatus = useAppSelector(selectFilmStatus);
   const calculateTotalRating = useCallback((reviews: IReview[] | undefined) => {
     if (!reviews || reviews.length === 0) {
       return 0;
@@ -28,13 +24,11 @@ const Overview: FC = () => {
 
   const ratingCount = useMemo(() => calculateTotalRating([]), [calculateTotalRating]);
 
-
-  if (filmsError) {
-    return <Page404/>;
-  }
-
-  if (!film || filmsStatus === 'LOADING') {
+  if (filmStatus === ApiStatusPendingEnum.LOADING) {
     return <Spinner/>;
+  }
+  if (!film) {
+    return <Page404/>;
   }
 
   return (

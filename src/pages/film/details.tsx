@@ -15,7 +15,7 @@ const Details: FC = () => {
   const film = films?.find((f) => f.id === params.id);
 
 
-  if (filmsError || !film) {
+  if (filmsError) {
     return <Page404/>;
   }
 
