@@ -5,5 +5,8 @@ export interface IReview {
   date: string;
   id: number;
   rating: number;
-  user: string;
+  user: {
+    id: number;
+    name: string;
+  };
 }

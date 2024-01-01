@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { userStatusData } from '../../store/auth/auth-selectors.ts';
 import { logout } from '../../store/api-actions.ts';
+import './user-block.scss';
 
 const UserBlock: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ const UserBlock: React.FC = () => {
         </Link>
       </li>
       <li className="user-block__item">
-        <button style={{border: 'none', background: 'transparent'}} onClick={logoutUser} className="user-block__link">Sign out</button>
+        <button onClick={logoutUser} className="user-block__link sign-out">Sign out</button>
       </li>
     </ul>
   );

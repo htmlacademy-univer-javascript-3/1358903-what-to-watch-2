@@ -1,7 +1,7 @@
 import { RootState } from '../index.ts';
 
 
-export const selectAuth = (state: RootState) => state.reducer.auth;
+export const selectAuth = (state: RootState) => state.auth;
 export const authorizationStatusData = (state: RootState) => selectAuth(state).authorizationStatus.apiData;
 export const authorizationStatusStatus = (state: RootState) => selectAuth(state).authorizationStatus.apiStatus;
 export const authorizationStatusError = (state: RootState) => selectAuth(state).authorizationStatus.apiError;

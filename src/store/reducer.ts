@@ -5,5 +5,4 @@ import { EReducers } from '../types/api.ts';
 export const reducer = combineReducers({
   [EReducers.Auth]: authSlice.reducer,
   [EReducers.Films]: filmSlice.reducer,
-
 });

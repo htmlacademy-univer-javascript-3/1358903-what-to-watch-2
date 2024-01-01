@@ -8,7 +8,7 @@ export enum ApiStatusPendingEnum {
 export interface ApiStatusState<T> {
   apiData: T | null;
   apiStatus: ApiStatusPendingEnum | null;
-  apiError: string | null;
+  apiError: boolean | null;
 }
 
 export const initialApiState = {
@@ -26,5 +26,4 @@ export interface IAuth {
 export enum EReducers {
     Films = 'films',
     Auth = 'auth',
-
 }

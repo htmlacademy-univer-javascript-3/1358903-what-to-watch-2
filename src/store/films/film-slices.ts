@@ -41,9 +41,9 @@ export const filmSlice = createSlice({
         state.films.apiStatus = ApiStatusPendingEnum.LOAD;
         state.films.apiData = action.payload;
       })
-      .addCase(fetchMovies.rejected, (state, action) => {
+      .addCase(fetchMovies.rejected, (state) => {
         state.films.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.films.apiError = action.error.message || 'error';
+        state.films.apiError = true;
       })
 
 
@@ -54,9 +54,9 @@ export const filmSlice = createSlice({
         state.film.apiStatus = ApiStatusPendingEnum.LOAD;
         state.film.apiData = action.payload;
       })
-      .addCase(fetchFilm.rejected, (state, action) => {
+      .addCase(fetchFilm.rejected, (state) => {
         state.film.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.film.apiError = action.error.message || 'error';
+        state.film.apiError = true;
       })
 
       .addCase(fetchFavoriteFilms.pending, (state) => {
@@ -66,9 +66,9 @@ export const filmSlice = createSlice({
         state.favoriteFilms.apiStatus = ApiStatusPendingEnum.LOAD;
         state.favoriteFilms.apiData = action.payload;
       })
-      .addCase(fetchFavoriteFilms.rejected, (state, action) => {
+      .addCase(fetchFavoriteFilms.rejected, (state) => {
         state.favoriteFilms.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.favoriteFilms.apiError = action.error.message || 'error';
+        state.favoriteFilms.apiError = true;
       })
 
 
@@ -79,9 +79,9 @@ export const filmSlice = createSlice({
         state.film.apiStatus = ApiStatusPendingEnum.LOAD;
         state.film.apiData = action.payload;
       })
-      .addCase(fetchPromo.rejected, (state, action) => {
+      .addCase(fetchPromo.rejected, (state) => {
         state.film.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.film.apiError = action.error.message || 'error';
+        state.favoriteFilms.apiError = true;
       })
 
       .addCase(fetchReviews.pending, (state) => {
@@ -91,9 +91,9 @@ export const filmSlice = createSlice({
         state.reviews.apiStatus = ApiStatusPendingEnum.LOAD;
         state.reviews.apiData = action.payload;
       })
-      .addCase(fetchReviews.rejected, (state, action) => {
+      .addCase(fetchReviews.rejected, (state) => {
         state.reviews.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.reviews.apiError = action.error.message || 'error';
+        state.favoriteFilms.apiError = true;
       })
 
 
@@ -104,9 +104,9 @@ export const filmSlice = createSlice({
         state.similar.apiStatus = ApiStatusPendingEnum.LOAD;
         state.similar.apiData = action.payload;
       })
-      .addCase(fetchSimilar.rejected, (state, action) => {
+      .addCase(fetchSimilar.rejected, (state) => {
         state.similar.apiStatus = ApiStatusPendingEnum.ERROR;
-        state.similar.apiError = action.error.message || 'error';
+        state.favoriteFilms.apiError = true;
       });
   },
 });
