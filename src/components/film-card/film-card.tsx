@@ -7,12 +7,11 @@ import { Film } from '../../types/film.ts';
 interface IFilmCardProps {
   film: Film;
 }
-
 const FilmCard: FC<IFilmCardProps> = ({ film }) => {
   const { backgroundImage, name, genre, id, posterImage, released } = film;
 
   return (
-    <section className="film-card">
+    <section className="film-card" data-testid="card-link">
       <div className="film-card__bg">
         <img src={backgroundImage} alt={name} />
       </div>

@@ -42,7 +42,7 @@ const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
         <VideoPlayerMemo isPlaying={isPlaying} videoUrl={previewVideoLink} previewImageUrl={previewImage}/>
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
+        <Link className="small-film-card__link" data-testid="card-link" to={`/films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
