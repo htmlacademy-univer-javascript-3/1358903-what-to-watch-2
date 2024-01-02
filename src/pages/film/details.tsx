@@ -1,25 +1,23 @@
 import { FC, Fragment, memo } from 'react';
-import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/store.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import {
+  selectFilmData, selectFilmError,
+  selectFilmStatus
+} from '../../store/films/film-selectors.ts';
 import { Page404 } from '../page-404/page-404.tsx';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 
 
 const Details: FC = () => {
-  const params = useParams();
-  const films = useAppSelector(selectFilmsData);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const filmError = useAppSelector(selectFilmError);
+  const filmStatus = useAppSelector(selectFilmStatus);
+  const film = useAppSelector(selectFilmData);
 
-  const film = films?.find((f) => f.id === params.id);
-
-
-  if (filmsError) {
+  if (filmError) {
     return <Page404/>;
   }
 
-  if (!films || filmsStatus === 'LOADING') {
+  if (!film || filmStatus === 'LOADING') {
     return <Spinner/>;
   }
 

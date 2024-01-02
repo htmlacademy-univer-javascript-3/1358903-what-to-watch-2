@@ -1,28 +1,15 @@
-import { FC, memo, useCallback, useMemo } from 'react';
-import { IReview } from '../../types/review.ts';
+import { FC, memo } from 'react';
 import { useAppSelector } from '../../hooks/store.ts';
 import { selectFilmData, selectFilmStatus, } from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { ApiStatusPendingEnum } from '../../types/api.ts';
 import { Page404 } from '../page-404/page-404.tsx';
+import { getFilmRating } from './utils/getFilmRating.ts';
 
 
 const Overview: FC = () => {
   const film = useAppSelector(selectFilmData);
   const filmStatus = useAppSelector(selectFilmStatus);
-  const calculateTotalRating = useCallback((reviews: IReview[] | undefined) => {
-    if (!reviews || reviews.length === 0) {
-      return 0;
-    }
-    return reviews.reduce((acc, next) => acc + next.rating, 0);
-  }, []);
-
-  const score = useMemo(() => {
-    const totalRating = calculateTotalRating([]);
-    return totalRating / ([]?.length || 1);
-  }, [calculateTotalRating]);
-
-  const ratingCount = useMemo(() => calculateTotalRating([]), [calculateTotalRating]);
 
   if (filmStatus === ApiStatusPendingEnum.LOADING) {
     return <Spinner/>;
@@ -34,10 +21,10 @@ const Overview: FC = () => {
   return (
     <div className="film-card__desc">
       <div className="film-rating">
-        <div className="film-rating__score">{score}</div>
+        <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
-          <span className="film-rating__count">{ratingCount} ratings</span>
+          <span className="film-rating__level">{getFilmRating(film.rating)}</span>
+          <span className="film-rating__count">{film.scoresCount} ratings</span>
         </p>
       </div>
 
@@ -48,7 +35,6 @@ const Overview: FC = () => {
       </div>
     </div>
   );
-
 };
 
 export const OverviewMemo = memo(Overview);

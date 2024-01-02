@@ -3,13 +3,15 @@ import { Buttons } from '../button/buttons.ts';
 import UserBlock from '../user-block/user-block.tsx';
 import { FC, memo } from 'react';
 import { Film } from '../../types/film.ts';
+import { useAppSelector } from '../../hooks/store.ts';
+import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 
 interface IFilmCardProps {
   film: Film;
 }
 const FilmCard: FC<IFilmCardProps> = ({ film }) => {
   const { backgroundImage, name, genre, id, posterImage, released } = film;
-
+  const isAuth = useAppSelector(authorizationStatusData);
   return (
     <section className="film-card" data-testid="card-link">
       <div className="film-card__bg">
@@ -39,8 +41,8 @@ const FilmCard: FC<IFilmCardProps> = ({ film }) => {
             </p>
             <div className="film-card__buttons">
               <Buttons.Play filmId={id}/>
-              <Buttons.MyListButton filmId={id}/>
-              <Buttons.AddReview filmId={id}/>
+              <Buttons.MyListButton film={film} />
+              {isAuth && <Buttons.AddReview filmId={id}/>}
             </div>
           </div>
         </div>

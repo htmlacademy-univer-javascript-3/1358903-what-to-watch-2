@@ -151,9 +151,7 @@ export const setFavorite = createAsyncThunk<
   }
 >(
   'films/setFavorite',
-  async ({ status, filmId }, {dispatch, extra: api}) => {
-    dispatch(fetchFilm(filmId));
-    dispatch(fetchFavoriteFilms());
+  async ({ status, filmId }, {extra: api}) => {
     const { data } = await api.post<Film>(
       `/favorite/${filmId}/${status ? 1 : 0}`
     );
@@ -162,16 +160,17 @@ export const setFavorite = createAsyncThunk<
 );
 
 export const addReview = createAsyncThunk<
-  void,
-  { comment: string; rating: number; filmId: string },
+  { redirectToFilm: () => void },
+  { comment: string; rating: number; filmId: string; redirectToFilm: () => void },
   {
     dispatch: AppDispatch;
     state: RootState;
     extra: AxiosInstance;
   }
->(
-  'films/addReview',
-  async ({ comment, rating, filmId }, { extra: api }) => {
-    await api.post(`/comments/${filmId}`, { comment, rating });
-  }
-);
+    >(
+    'films/addReview',
+    async ({ comment, rating, filmId, redirectToFilm }, { extra: api }) => {
+      await api.post<IReview>(`/comments/${filmId}`, { comment, rating });
+      return { redirectToFilm };
+    }
+    );

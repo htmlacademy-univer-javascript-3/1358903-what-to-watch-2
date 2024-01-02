@@ -5,6 +5,7 @@ import { store } from './store';
 import { HistoryRouter } from './components/history-router/history-route.tsx';
 import {createBrowserHistory} from 'history';
 import { App } from './components/app/app.tsx';
+import { ToastContainer } from 'react-toastify';
 
 const browserHistory = createBrowserHistory();
 const root = ReactDOM.createRoot(
@@ -16,6 +17,8 @@ root.render(
     <Provider store={store}>
       <HistoryRouter history={browserHistory}>
         <App />
+        <ToastContainer position='bottom-right' />
+
       </HistoryRouter>
     </Provider>
   </React.StrictMode>,
