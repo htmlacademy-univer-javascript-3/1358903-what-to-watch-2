@@ -153,21 +153,21 @@ export const testReviews: IReview[] = [
   {
     id: 1,
     rating: 8,
-    user: {name: 'Amanda Greever', id: 1},
+    user: 'Amanda Greever',
     date: '2022-06-02T12:25:36.946Z',
     comment: 'It\'s a good film for watching with your family. My daughter was in a perfect mood all day after watching, thanks for it!'
   },
   {
     id: 2,
     rating: 9,
-    user: {name: 'Amanda Greever1', id: 2},
+    user: 'Amanda Greever',
     date: '2022-06-02T12:25:36.946Z',
     comment: 'It\'s a good film for watching with your family. My daughter was in a perfect mood all day after watching, thanks for it!'
   },
   {
     id: 3,
     rating: 8,
-    user: {name: 'Amanda Greever2', id: 3},
+    user: 'Amanda Greever',
     date: '2022-06-02T12:25:36.946Z',
     comment: 'It\'s a good film for watching with your family. My daughter was in a perfect mood all day after watching, thanks for it!'
   },

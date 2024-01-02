@@ -228,10 +228,14 @@ describe('Async action', () => {
   });
 
   it('POST /comments/{id}', async () => {
+
+    const redirectToFilm = () => null;
+
     const postData = {
       filmId: '1',
       comment: 'text',
       rating: 4.4,
+      redirectToFilm: redirectToFilm,
     };
 
     mockAPI
