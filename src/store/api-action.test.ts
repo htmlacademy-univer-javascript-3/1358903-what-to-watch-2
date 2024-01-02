@@ -22,9 +22,10 @@ describe('Async action', () => {
   const middlewares = [thunk.withExtraArgument(api)];
   const mockStore = configureMockStore<
     RootState,
-    Action,
+    Action<string>,
     ThunkDispatch<RootState, typeof api, Action>
   >(middlewares);
+
 
   const data = {email: 'tomilin229@gmail.com', password: '1Q'};
 
@@ -197,12 +198,10 @@ describe('Async action', () => {
 
     await store.dispatch(setFavorite(postData));
 
-    // Filter the actions to include only setFavorite actions
     const setFavoriteActions = store.getActions().filter(
       (action) => action.type.startsWith('films/setFavorite')
     );
 
-    // Assert only setFavorite actions are dispatched
     const expectedActions = [
       {
         type: 'films/setFavorite/pending',

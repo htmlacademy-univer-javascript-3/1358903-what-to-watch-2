@@ -71,7 +71,7 @@ describe('MainPage', () => {
     }
   });
 
-  it('should render correctly, when NoAuth', async () => {
+  it('should render correctly, when NoAuth', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>

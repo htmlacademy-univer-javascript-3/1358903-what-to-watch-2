@@ -21,23 +21,28 @@ const UserBlock: React.FC = () => {
   return (
     <ul className="user-block">
       {
-        user ? <>
+        user ? (
+          <>
+            <li className="user-block__item">
+              <Link to="/mylist">
+                <div className="user-block__avatar">
+                  {user && <img src={user?.avatarUrl} alt="User avatar" width="63" height="63" />}
+                </div>
+              </Link>
+            </li>
+            <li className="user-block__item">
+              <button onClick={logoutUser} className="user-block__link sign-out">
+                Sign out
+              </button>
+            </li>
+          </>
+        ) : (
           <li className="user-block__item">
-            <Link to="/mylist">
-              <div className="user-block__avatar">
-                {
-                  user && <img src={user?.avatarUrl} alt="User avatar" width="63" height="63" />
-                }
-              </div>
-            </Link>
+            <button onClick={loginUser} className="user-block__link sign-out">
+              Sign in
+            </button>
           </li>
-          <li className="user-block__item">
-            <button onClick={logoutUser} className="user-block__link sign-out">Sign out</button>
-          </li>
-        </>
-          : <li className="user-block__item">
-            <button onClick={loginUser} className="user-block__link sign-out">Sign in</button>
-          </li>
+        )
       }
     </ul>
   );
