@@ -105,7 +105,6 @@ export const SignInPage: FC = () => {
           </div>
         </form>
       </div>
-
       <Footer/>
     </div>
   );
