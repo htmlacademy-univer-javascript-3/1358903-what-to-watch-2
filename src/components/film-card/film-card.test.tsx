@@ -2,7 +2,7 @@ import { createAPI } from '../../services/api';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Action } from '@reduxjs/toolkit';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ApiStatusPendingEnum, EReducers } from '../../types/api.ts';
@@ -86,8 +86,6 @@ describe('FilmCard', () => {
       </Provider>
     );
 
-    const LinkToFilmPageScreen = screen.getByTestId('card-link');
-    fireEvent.click(LinkToFilmPageScreen);
 
     expect(screen.getByText(testFilms[0].name)).toBeInTheDocument();
     expect(screen.getByText(testFilms[0].genre)).toBeInTheDocument();

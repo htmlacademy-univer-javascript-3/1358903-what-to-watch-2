@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import {BrowserRouter} from 'react-router-dom';
-import { CatalogMemo } from './catalog.tsx';
+import { LikeThisMemo } from './like-this.tsx';
 import { createAPI } from '../../services/api.ts';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
@@ -42,18 +42,13 @@ const store = mockStore({
       apiError: false,
       apiStatus: ApiStatusPendingEnum.LOAD
     },
-    films: {
-      apiData: testFilms,
-      apiError: false,
-      apiStatus: ApiStatusPendingEnum.LOAD
-    },
     reviews: {
       apiData: null,
       apiStatus: null,
       apiError: null,
     },
     similar: {
-      apiData: null,
+      apiData: [],
       apiStatus: null,
       apiError: null,
     },
@@ -65,18 +60,17 @@ const store = mockStore({
   }
 });
 
-
-describe('Catalog', () => {
+describe('LikeThis', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <CatalogMemo/>
+          <LikeThisMemo genre={'All genres'}/>
         </BrowserRouter>
       </Provider>
 
     );
 
-    expect(screen.getByText('Catalog')).toBeInTheDocument();
+    expect(screen.getByText('More like this')).toBeInTheDocument();
   });
 });
