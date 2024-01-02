@@ -22,9 +22,10 @@ describe('Async action', () => {
   const middlewares = [thunk.withExtraArgument(api)];
   const mockStore = configureMockStore<
     RootState,
-    Action,
+    Action<string>,
     ThunkDispatch<RootState, typeof api, Action>
   >(middlewares);
+
 
   const data = {email: 'tomilin229@gmail.com', password: '1Q'};
 
@@ -197,41 +198,23 @@ describe('Async action', () => {
 
     await store.dispatch(setFavorite(postData));
 
-    // Filter the actions to include only setFavorite actions
-    const setFavoriteActions = store.getActions().filter(
-      (action) => action.type.startsWith('films/setFavorite')
-    );
+    const actions = store.getActions().map(({ type }) => type);
 
-    // Assert only setFavorite actions are dispatched
-    const expectedActions = [
-      {
-        type: 'films/setFavorite/pending',
-        payload: undefined,
-        meta: {
-          arg: postData,
-          requestId: expect.any(String),
-          requestStatus: 'pending',
-        },
-      },
-      {
-        type: 'films/setFavorite/fulfilled',
-        payload: undefined,
-        meta: {
-          arg: postData,
-          requestId: expect.any(String),
-          requestStatus: 'fulfilled',
-        },
-      },
-    ];
-
-    expect(setFavoriteActions).toEqual(expectedActions);
+    expect(actions).toEqual([
+      setFavorite.pending.type,
+      setFavorite.fulfilled.type
+    ]);
   });
 
   it('POST /comments/{id}', async () => {
+
+    const redirectToFilm = () => null;
+
     const postData = {
       filmId: '1',
       comment: 'text',
       rating: 4.4,
+      redirectToFilm: redirectToFilm,
     };
 
     mockAPI

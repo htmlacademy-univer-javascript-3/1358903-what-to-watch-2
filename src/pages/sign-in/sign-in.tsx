@@ -16,12 +16,30 @@ export const SignInPage: FC = () => {
     email: '',
     password: '',
   });
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
 
   useEffect(() => {
     if (auth === true) {
       history('/');
     }
   }, [auth, history]);
+
+  const validateEmail = (email: string) => {
+    if (!email.includes('@')) {
+      setEmailError('Введите корректный email адрес');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validatePassword = (password: string) => {
+    if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+      setPasswordError('Пароль должен содержать хотя бы одну букву и одну цифру');
+    } else {
+      setPasswordError('');
+    }
+  };
 
   const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -57,9 +75,13 @@ export const SignInPage: FC = () => {
                 placeholder="Email address"
                 name="email"
                 id="user-email" value={signIn?.email}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  validateEmail(e.target.value);
+                }}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email" data-testid="email-input">Email address</label>
+              {emailError && <span>{emailError}</span>}
             </div>
             <div className="sign-in__field">
               <input
@@ -69,9 +91,13 @@ export const SignInPage: FC = () => {
                 name="password"
                 id="user-password"
                 value={signIn?.password}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  validatePassword(e.target.value);
+                }}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password" data-testid="password-input">Password</label>
+              {passwordError && <span>{passwordError}</span>}
             </div>
           </div>
           <div className="sign-in__submit">
@@ -79,7 +105,6 @@ export const SignInPage: FC = () => {
           </div>
         </form>
       </div>
-
       <Footer/>
     </div>
   );

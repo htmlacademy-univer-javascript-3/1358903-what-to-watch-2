@@ -1,41 +1,35 @@
 import { FC, memo, useCallback, useEffect } from 'react';
 import { Footer } from '../../components/footer/footer.tsx';
-import { FilmCardMemo } from '../../components/film-card/film-card.tsx';
 import Logo from '../../components/logo/logo.tsx';
-import { Spinner } from '../../components/spinner/spinner.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
-import { selectfavoriteFilmsData, selectfavoriteFilmsStatus } from '../../store/films/film-selectors.ts';
+import { favoriteCount } from '../../store/films/film-selectors.ts';
+import { logout } from '../../store/api-actions.ts';
+import { CatalogMemo } from '../../components/catalog/catalog.tsx';
+import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 import { useNavigate } from 'react-router-dom';
-import { fetchFavoriteFilms, logout } from '../../store/api-actions.ts';
-import { ApiStatusPendingEnum } from '../../types/api.ts';
 
 
 export const MyListPage: FC = () => {
-  const isFavoriteFilmsStatus = useAppSelector(selectfavoriteFilmsStatus);
-  const films = useAppSelector(selectfavoriteFilmsData);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchFavoriteFilms());
-  }, [dispatch]);
-
+  const myFavoriteCount = useAppSelector(favoriteCount);
+  const isAuth = useAppSelector(authorizationStatusData);
   const history = useNavigate();
+  useEffect(() => {
+    if (!isAuth) {
+      history('/login');
+    }
+  }, [history, isAuth]);
 
   const userLogout = useCallback(() => {
     dispatch(logout());
-    history('/login');
-  }, [dispatch, history]);
-
-  if (isFavoriteFilmsStatus === ApiStatusPendingEnum.LOADING) {
-    return (<Spinner/>);
-  }
+  }, [dispatch]);
 
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo />
 
-        <h1 className="page-title user-page__title" id='my-list-title'>My list <span className="user-page__film-count">{films?.length}</span></h1>
+        <h1 className="page-title user-page__title" id='my-list-title'>My list <span className="user-page__film-count">{myFavoriteCount}</span></h1>
         <ul className="user-block">
           <li className="user-block__item">
             <div className="user-block__avatar">
@@ -48,15 +42,7 @@ export const MyListPage: FC = () => {
         </ul>
       </header>
 
-      <section className="catalog">
-        <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <div className="catalog__films-list">
-          {
-            films?.map((film) => <FilmCardMemo key={film.id} film={film}/>)
-          }
-        </div>
-      </section>
+      <CatalogMemo isFavoriteCatalog />
 
       <Footer/>
     </div>

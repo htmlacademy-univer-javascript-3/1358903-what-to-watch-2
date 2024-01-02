@@ -1,44 +1,56 @@
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { GenresItemMemo } from './genres-item.tsx';
-import { ECatalog, eCatalogValues } from '../../types/catalog.ts';
+import { ECatalog } from '../../types/catalog.ts';
 import { SmallFilmCardMemo } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { setGenre } from '../../store/action.ts';
 import { Page404 } from '../../pages/page-404/page-404.tsx';
 import { Spinner } from '../spinner/spinner.tsx';
 import {
-  currentGenre,
+  currentGenre, selecfavoriteFilmsError, selectfavoriteFilmsData, selectfavoriteFilmsStatus,
   selectFilmsData,
   selectFilmsError,
   selectFilmsStatus
 } from '../../store/films/film-selectors.ts';
-import { fetchMovies } from '../../store/api-actions.ts';
+import { fetchFavoriteFilms, fetchMovies } from '../../store/api-actions.ts';
 
 
 const VISIBLE_FILMS_COUNT = 8;
 
 interface ICatalogProps {
   withGenres?: boolean;
+  isFavoriteCatalog?: boolean;
 }
-const Catalog: FC<ICatalogProps> = ({withGenres}) => {
+const Catalog: FC<ICatalogProps> = ({withGenres, isFavoriteCatalog}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
   const genre = useAppSelector(currentGenre);
-  const films = useAppSelector(selectFilmsData);
+  const filmsData = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
+  const favoriteFilmsData = useAppSelector(selectfavoriteFilmsData);
+  const favoriteFilmsError = useAppSelector(selecfavoriteFilmsError);
+  const favoriteFilmsStatus = useAppSelector(selectfavoriteFilmsStatus);
+
+  const films = isFavoriteCatalog ? favoriteFilmsData : filmsData;
+  const error = isFavoriteCatalog ? favoriteFilmsError : filmsError;
+  const status = isFavoriteCatalog ? favoriteFilmsStatus : filmsStatus;
+  const genres = useMemo(() => [ECatalog.All, ...new Set(filmsData?.map((film) => film.genre))], [filmsData]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (films === null) {
-      dispatch(fetchMovies());
+      if (isFavoriteCatalog) {
+        dispatch(fetchFavoriteFilms());
+      } else {
+        dispatch(fetchMovies());
+      }
     }
-  }, [dispatch, films]);
+  }, [dispatch, films, isFavoriteCatalog]);
 
-  const handleSetGenre = useCallback((value: ECatalog) => () => {
+  const handleSetGenre = useCallback((value: string) => () => {
     dispatch(setGenre(value));
     setVisibleFilmsCount(VISIBLE_FILMS_COUNT);
   }, [dispatch]);
-
 
   const filteredFilms = useMemo(() => {
     if (genre === ECatalog.All) {
@@ -59,11 +71,10 @@ const Catalog: FC<ICatalogProps> = ({withGenres}) => {
     return 0;
   } , [filteredFilms, visibleFilmsCount]);
 
-  if (filmsError) {
+  if (error) {
     return <Page404/>;
   }
-
-  if (!films || filmsStatus === 'LOADING') {
+  if (!films || status === 'LOADING') {
     return <Spinner/>;
   }
 
@@ -72,18 +83,20 @@ const Catalog: FC<ICatalogProps> = ({withGenres}) => {
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list">
         {withGenres &&
-          eCatalogValues.map((catalog) => (
+          genres.map((catalog) => (
             <GenresItemMemo catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre} />
           ))}
       </ul>
 
       <div className="catalog__films-list">
-        {filteredFilms?.slice(0, visibleFilmsCount).map((film) => (
-          <SmallFilmCardMemo key={film.id} film={film} />
-        ))}
+        {(filteredFilms?.length) ?
+          filteredFilms?.slice(0, visibleFilmsCount).map((film) => (
+            <SmallFilmCardMemo key={film.id} film={film} />
+          ))
+          : null}
       </div>
 
-      {isShowMore && (
+      {isShowMore && !isFavoriteCatalog && (
         <div className="catalog__more">
           <button className="catalog__button" type="button" onClick={handleShowMoreClick}>
             Show more

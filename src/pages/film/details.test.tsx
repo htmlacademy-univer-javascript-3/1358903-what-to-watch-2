@@ -26,6 +26,11 @@ describe('details', () => {
         apiError: false,
         apiStatus: ApiStatusPendingEnum.LOAD
       },
+      film: {
+        apiData: testFilms[0],
+        apiError: false,
+        apiStatus: ApiStatusPendingEnum.LOAD
+      },
     }
   });
 

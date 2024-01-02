@@ -11,19 +11,31 @@ import { Spinner } from '../../components/spinner/spinner.tsx';
 interface IReviewItemProps {
   review: IReview;
 }
-const Review: FC<IReviewItemProps> = ({review}) => (
-  <div className="review">
-    <blockquote className="review__quote">
-      <p className="review__text">{review?.comment}</p>
-      <footer className="review__details">
-        <cite className="review__author">{review?.user.name}</cite>
-        <time className="review__date" dateTime="Дата отзыва">{review?.date}</time>
-      </footer>
-    </blockquote>
-    <div className="review__rating">{review?.rating}</div>
-  </div>
-);
-
+const Review: FC<IReviewItemProps> = ({review}) => {
+  const getDateString = (date: string): string => {
+    const inputDate = new Date(date);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(inputDate);
+  };
+  return (
+    <div className="review">
+      <blockquote className="review__quote">
+        <p className="review__text">{review?.comment}</p>
+        <footer className="review__details">
+          <cite className="review__author">{review?.user}</cite>
+          <time
+            className="review__date"
+            dateTime={getDateString(review?.date)}
+          >
+            {getDateString(review?.date)}
+          </time>
+        </footer>
+      </blockquote>
+      <div className="review__rating">{review?.rating}</div>
+    </div>
+  );
+};
 interface IFilmCardReviewsColumnProps {
   reviews: IReview[];
 }

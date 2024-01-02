@@ -63,10 +63,15 @@ describe('MainPage', () => {
         apiStatus: ApiStatusPendingEnum.LOAD,
         apiError: null,
       },
+      promo: {
+        apiData: testFilms[0],
+        apiError: false,
+        apiStatus: ApiStatusPendingEnum.LOAD
+      },
     }
   });
 
-  it('should render correctly, when NoAuth', async () => {
+  it('should render correctly, when NoAuth', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>

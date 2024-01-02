@@ -2,20 +2,21 @@ import React, { useCallback, useEffect } from 'react';
 import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { fetchFavoriteFilms, setFavorite } from '../../store/api-actions.ts';
-import { selectfavoriteFilmsData, selectFilmData } from '../../store/films/film-selectors.ts';
+import { favoriteCount } from '../../store/films/film-selectors.ts';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../icon/icon.tsx';
+import { Film } from '../../types/film.ts';
 
 interface IMyListButtonProps {
-  filmId: string;
+  film: Film;
 }
-export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId }) => {
+export const MyListButton: React.FC<IMyListButtonProps> = ({ film }) => {
 
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(authorizationStatusData);
-  const film = useAppSelector(selectFilmData);
-  const selectFavoriteFilms = useAppSelector(selectfavoriteFilmsData);
   const history = useNavigate();
+  const favoriteFilms = useAppSelector(favoriteCount);
+
   useEffect(() => {
     if (authorizationStatus){
       dispatch(fetchFavoriteFilms());
@@ -25,11 +26,11 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId }) => {
 
   const handleButtonClick = useCallback(() => {
     if (authorizationStatus){
-      dispatch(setFavorite({status: film?.isFavorite ?? false, filmId: filmId}));
+      dispatch(setFavorite({status: !film?.isFavorite, filmId: film.id}));
     } else {
       history('/login');
     }
-  }, [authorizationStatus, dispatch, film?.isFavorite, filmId, history]);
+  }, [authorizationStatus, dispatch, film?.isFavorite, film.id, history]);
 
 
   return (
@@ -42,7 +43,7 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId }) => {
         )
       }
       <span>My list</span>
-      <span className="film-card__count">{selectFavoriteFilms?.length}</span>
+      <span className="film-card__count">{favoriteFilms}</span>
     </button>
   );
 };

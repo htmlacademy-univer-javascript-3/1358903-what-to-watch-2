@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Film } from '../../types/film.ts';
 import { VideoPlayerMemo } from '../video-player/video-player.tsx';
@@ -14,6 +14,7 @@ const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
   const {previewImage, id, previewVideoLink, name} = film;
   const [isPlaying, setIsPlaying] = useState(false);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
+  const history = useNavigate();
   const handleMouseEnter = useCallback(() => {
     if (timeoutId.current) {
       clearTimeout(timeoutId.current);
@@ -32,9 +33,12 @@ const SmallFilmCard: React.FC<IFilmCardProps> = ({film}) => {
     setIsPlaying(false);
   }, []);
 
+  const openFilm = useCallback(() => {
+    history(`/films/${id}`);
+  }, [history, id]);
 
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onClick={openFilm}>
       <div className="small-film-card__image"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

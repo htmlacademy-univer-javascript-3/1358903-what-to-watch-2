@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
 import { BreadcrumbsMemo } from './breadcrumbs.tsx';
@@ -19,8 +19,8 @@ const AddReviewPage: FC = () => {
   const filmError = useAppSelector(selectFilmError);
   const filmStatus = useAppSelector(selectFilmStatus);
   const dispatch = useAppDispatch();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (id) {
@@ -39,18 +39,26 @@ const AddReviewPage: FC = () => {
     handleSubmit,
     setValue,
     control,
+    watch,
   } = methods;
 
-
-  const onSubmitForm = useCallback((data: FormAddReview) => {
+  const redirectToFilm = useCallback(() => {
     if (!film?.id) {
       return;
     }
-    dispatch(
-      addReview({ filmId: film.id, rating: +data.rating, comment: data.text })
-    );
-    navigate(`/films/${film.id}`);
-  }, [dispatch, film?.id, navigate]);
+    navigate(`/films/${film?.id}`);
+  }, [film?.id, navigate]);
+
+  const onSubmitForm = useCallback(async (data: FormAddReview) => {
+    if (!film?.id) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    await dispatch(addReview({ filmId: film.id, rating: +data.rating, comment: data.text, redirectToFilm: redirectToFilm}));
+    setIsSubmitting(false);
+
+  }, [dispatch, film?.id, redirectToFilm]);
 
   const setTextValue = useCallback((value: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue('text', value?.target.value);
@@ -71,12 +79,17 @@ const AddReviewPage: FC = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     void handleSubmit(onSubmitForm)(event);
   };
+  const rating = watch('rating');
+  const text = watch('text');
+
+  const isFormValid = rating && text.length >= 50 && text.length <= 400;
+
 
   return (
-    <section className="film-card film-card--full">
+    <section style={{'background': `${film.backgroundColor}`}} className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.previewImage} alt={film.name} />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -88,12 +101,8 @@ const AddReviewPage: FC = () => {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img
-            src={film.previewImage}
-            alt={film.name}
-            width="218"
-            height="327"
-          />
+          <img src={film.posterImage} alt={film.name} width="218" height="327" />
+
         </div>
       </div>
 
@@ -108,7 +117,9 @@ const AddReviewPage: FC = () => {
               <textarea onChange={setTextValue} className="add-review__textarea" name="text" id="review-text" placeholder="Review text">
               </textarea>
               <div className="add-review__submit">
-                <button className="add-review__btn" type="submit">Post</button>
+                <button className="add-review__btn" type="submit" disabled={!isFormValid || isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Post'}
+                </button>
               </div>
 
             </div>

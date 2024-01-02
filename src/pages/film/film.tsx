@@ -64,13 +64,10 @@ export const Film: FC = () => {
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section style={{'background': `${film.backgroundColor}`}} className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img
-              src={film?.previewImage}
-              alt={film?.name}
-            />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -91,7 +88,7 @@ export const Film: FC = () => {
 
               <div className="film-card__buttons">
                 <Buttons.Play filmId={id}/>
-                <Buttons.MyListButton filmId={id} />
+                <Buttons.MyListButton film={film} />
                 {
                   isAuth && <Buttons.AddReview filmId={id}/>
                 }
@@ -104,7 +101,7 @@ export const Film: FC = () => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={film.previewImage}
+                src={film.posterImage}
                 alt={film.name}
                 width="218"
                 height="327"

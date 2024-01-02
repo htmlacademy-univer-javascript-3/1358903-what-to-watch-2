@@ -68,6 +68,11 @@ describe('Application Routing', () => {
         apiStatus: ApiStatusPendingEnum.LOAD,
         apiError: null,
       },
+      promo: {
+        apiData: testFilms[0],
+        apiError: false,
+        apiStatus: ApiStatusPendingEnum.LOAD
+      },
     }
   });
   const routes = ['/'];
