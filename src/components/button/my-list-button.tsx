@@ -33,7 +33,7 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId }) => {
 
 
   return (
-    <button className="btn btn--list film-card__button" type="button" onClick={handleButtonClick}>
+    <button data-testid="card-link" className="btn btn--list film-card__button" type="button" onClick={handleButtonClick}>
       {
         film?.isFavorite ? (
           <Icon xlinkHref={'#in-list'} height={'14'} width={'18'} viewBox={'0 0 18 14'} dataTestId={'in-list'}/>

@@ -59,7 +59,7 @@ export const SignInPage: FC = () => {
                 id="user-email" value={signIn?.email}
                 onChange={handleInputChange}
               />
-              <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+              <label className="sign-in__label visually-hidden" htmlFor="user-email" data-testid="email-input">Email address</label>
             </div>
             <div className="sign-in__field">
               <input
@@ -71,7 +71,7 @@ export const SignInPage: FC = () => {
                 value={signIn?.password}
                 onChange={handleInputChange}
               />
-              <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
+              <label className="sign-in__label visually-hidden" htmlFor="user-password" data-testid="password-input">Password</label>
             </div>
           </div>
           <div className="sign-in__submit">

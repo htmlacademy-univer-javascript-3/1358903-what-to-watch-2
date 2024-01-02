@@ -15,7 +15,7 @@ export interface IFilmsState {
   favoriteFilms: ApiStatusState<Film[]>;
 }
 
-const initialState: IFilmsState = {
+export const initialState: IFilmsState = {
   genre: ECatalog.All,
   films: initialApiState,
   favoriteFilms: initialApiState,

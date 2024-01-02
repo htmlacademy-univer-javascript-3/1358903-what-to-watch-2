@@ -10,7 +10,7 @@ export interface IAuthState {
   user: ApiStatusState<IUser>;
 }
 
-const initialState: IAuthState = {
+export const initialState: IAuthState = {
   authorizationStatus: initialApiState,
   user: initialApiState,
 };
