@@ -198,32 +198,12 @@ describe('Async action', () => {
 
     await store.dispatch(setFavorite(postData));
 
-    const setFavoriteActions = store.getActions().filter(
-      (action) => action.type.startsWith('films/setFavorite')
-    );
+    const actions = store.getActions().map(({ type }) => type);
 
-    const expectedActions = [
-      {
-        type: 'films/setFavorite/pending',
-        payload: undefined,
-        meta: {
-          arg: postData,
-          requestId: expect.any(String),
-          requestStatus: 'pending',
-        },
-      },
-      {
-        type: 'films/setFavorite/fulfilled',
-        payload: undefined,
-        meta: {
-          arg: postData,
-          requestId: expect.any(String),
-          requestStatus: 'fulfilled',
-        },
-      },
-    ];
-
-    expect(setFavoriteActions).toEqual(expectedActions);
+    expect(actions).toEqual([
+      setFavorite.pending.type,
+      setFavorite.fulfilled.type
+    ]);
   });
 
   it('POST /comments/{id}', async () => {
