@@ -1,12 +1,13 @@
-import { FC, memo, useCallback, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { Page404 } from '../page-404/page-404.tsx';
-import { useAppSelector } from '../../hooks/store.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import {
   selectFilmData, selectFilmError, selectFilmStatus
 } from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
 import { Buttons } from '../../components/button/buttons.ts';
+import { fetchFilm } from '../../store/api-actions.ts';
 
 const MAX_PROGRESS = 100;
 
@@ -19,6 +20,14 @@ export const PlayerPage: FC = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isLoadingVideo, setIsLoadingVideo] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
+  const { id = '' } = useParams();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilm(id));
+    }
+  }, [id, dispatch]);
 
   const handleFullScreen = useCallback(() => {
     if (videoRef.current && videoRef.current.requestFullscreen) {
