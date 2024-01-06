@@ -12,10 +12,12 @@ import { LikeThisMemo } from '../../components/like-this/like-this.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import {
-  selectFilmData, selectFilmError,
+  selectFilmData, selectFilmError, selectFilmStatus,
 } from '../../store/films/film-selectors.ts';
 import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 import { fetchFilm, fetchReviews, fetchSimilar } from '../../store/api-actions.ts';
+import { ApiStatusPendingEnum } from '../../types/api.ts';
+import { Spinner } from '../../components/spinner/spinner.tsx';
 
 
 export const Film: FC = () => {
@@ -23,6 +25,7 @@ export const Film: FC = () => {
 
   const film = useAppSelector(selectFilmData);
   const filmError = useAppSelector(selectFilmError);
+  const filmStatus = useAppSelector(selectFilmStatus);
   const isAuth = useAppSelector(authorizationStatusData);
 
   const dispatch = useAppDispatch();
@@ -50,6 +53,10 @@ export const Film: FC = () => {
       component: <ReviewsMemo />
     }
   ];
+
+  if (filmStatus === ApiStatusPendingEnum.LOADING) {
+    return <Spinner/>;
+  }
 
   if (!film || filmError) {
     return <Page404/>;
