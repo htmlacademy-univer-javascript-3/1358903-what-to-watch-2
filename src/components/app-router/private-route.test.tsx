@@ -9,7 +9,7 @@ import { createAPI } from '../../services/api.ts';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { RootState } from '../../store';
 import { ApiStatusPendingEnum, EReducers } from '../../types/api.ts';
-import { HistoryRouter } from '../history-router/history-route.tsx';
+import { HistoryRouter } from '../history-router/history-router.tsx';
 import { PrivateRoute } from './private-route.tsx';
 
 

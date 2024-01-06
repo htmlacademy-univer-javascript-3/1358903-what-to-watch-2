@@ -6,7 +6,7 @@ import {
   selectFilmData, selectFilmError, selectFilmStatus
 } from '../../store/films/film-selectors.ts';
 import { Spinner } from '../../components/spinner/spinner.tsx';
-import { Buttons } from '../../components/button/buttons.ts';
+import { Buttons } from '../../components/buttons/buttons.ts';
 import { fetchFilm } from '../../store/api-actions.ts';
 
 const MAX_PROGRESS = 100;
