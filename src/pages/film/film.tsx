@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
-import { Buttons } from '../../components/button/buttons.ts';
+import { Buttons } from '../../components/buttons/buttons.ts';
 import { Tabs } from '../../components/tabs/tabs.tsx';
 import { ITab } from '../../components/tabs/types.ts';
 import { OverviewMemo } from './overview.tsx';
@@ -10,14 +10,14 @@ import { DetailsMemo } from './details.tsx';
 import { ReviewsMemo } from './reviews.tsx';
 import { LikeThisMemo } from '../../components/like-this/like-this.tsx';
 import { Page404 } from '../page-404/page-404.tsx';
-import { Spinner } from '../../components/spinner/spinner.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import {
-  selectFilmData, selectFilmError,
-  selectFilmStatus
+  selectFilmData, selectFilmError, selectFilmStatus,
 } from '../../store/films/film-selectors.ts';
 import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 import { fetchFilm, fetchReviews, fetchSimilar } from '../../store/api-actions.ts';
+import { ApiStatusPendingEnum } from '../../types/api.ts';
+import { Spinner } from '../../components/spinner/spinner.tsx';
 
 
 export const Film: FC = () => {
@@ -54,11 +54,11 @@ export const Film: FC = () => {
     }
   ];
 
-  if (!film || filmStatus === 'LOADING') {
+  if (filmStatus === ApiStatusPendingEnum.LOADING) {
     return <Spinner/>;
   }
 
-  if (filmError) {
+  if (!film || filmError) {
     return <Page404/>;
   }
 

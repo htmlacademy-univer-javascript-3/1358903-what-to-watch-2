@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Buttons } from '../button/buttons.ts';
+import { Buttons } from '../buttons/buttons.ts';
 import UserBlock from '../user-block/user-block.tsx';
 import { FC, memo } from 'react';
 import { Film } from '../../types/film.ts';

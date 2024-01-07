@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Route, Routes } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import userEvent from '@testing-library/user-event';
-import { HistoryRouter } from '../history-router/history-route.tsx';
+import { HistoryRouter } from '../history-router/history-router.tsx';
 import Logo from './logo.tsx';
 
 const history = createMemoryHistory();

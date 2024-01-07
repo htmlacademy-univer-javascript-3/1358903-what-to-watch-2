@@ -4,12 +4,10 @@ import { ECatalog } from '../../types/catalog.ts';
 import { SmallFilmCardMemo } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { setGenre } from '../../store/action.ts';
-import { Page404 } from '../../pages/page-404/page-404.tsx';
 import { Spinner } from '../spinner/spinner.tsx';
 import {
-  currentGenre, selecfavoriteFilmsError, selectfavoriteFilmsData, selectfavoriteFilmsStatus,
+  currentGenre, selectfavoriteFilmsData, selectfavoriteFilmsStatus,
   selectFilmsData,
-  selectFilmsError,
   selectFilmsStatus
 } from '../../store/films/film-selectors.ts';
 import { fetchFavoriteFilms, fetchMovies } from '../../store/api-actions.ts';
@@ -25,14 +23,11 @@ const Catalog: FC<ICatalogProps> = ({withGenres, isFavoriteCatalog}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
   const genre = useAppSelector(currentGenre);
   const filmsData = useAppSelector(selectFilmsData);
-  const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const favoriteFilmsData = useAppSelector(selectfavoriteFilmsData);
-  const favoriteFilmsError = useAppSelector(selecfavoriteFilmsError);
   const favoriteFilmsStatus = useAppSelector(selectfavoriteFilmsStatus);
 
   const films = isFavoriteCatalog ? favoriteFilmsData : filmsData;
-  const error = isFavoriteCatalog ? favoriteFilmsError : filmsError;
   const status = isFavoriteCatalog ? favoriteFilmsStatus : filmsStatus;
   const genres = useMemo(() => [ECatalog.All, ...new Set(filmsData?.map((film) => film.genre))], [filmsData]);
   const dispatch = useAppDispatch();
@@ -71,9 +66,6 @@ const Catalog: FC<ICatalogProps> = ({withGenres, isFavoriteCatalog}) => {
     return 0;
   } , [filteredFilms, visibleFilmsCount]);
 
-  if (error) {
-    return <Page404/>;
-  }
   if (!films || status === 'LOADING') {
     return <Spinner/>;
   }

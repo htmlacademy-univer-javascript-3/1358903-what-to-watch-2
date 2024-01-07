@@ -3,7 +3,7 @@ import { Footer } from '../../components/footer/footer.tsx';
 import Logo from '../../components/logo/logo.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import { favoriteCount } from '../../store/films/film-selectors.ts';
-import { logout } from '../../store/api-actions.ts';
+import { fetchFavoriteFilms, logout } from '../../store/api-actions.ts';
 import { CatalogMemo } from '../../components/catalog/catalog.tsx';
 import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,11 @@ export const MyListPage: FC = () => {
   const myFavoriteCount = useAppSelector(favoriteCount);
   const isAuth = useAppSelector(authorizationStatusData);
   const history = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteFilms);
+  }, [dispatch]);
+
   useEffect(() => {
     if (!isAuth) {
       history('/login');
